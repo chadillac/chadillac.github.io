@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        easy ejabberd clustering (multi-master, fault tolerant, failover) - 
+      
+      chad.ill.ac
+    </title>
+    
+    <meta name="author" content="Chad Seaman">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+            <a class="brand" href="/">chad.ill.ac</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="https://github.com/chadillac" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                
+                <li>
+                  <a href="https://twitter.com/chadillac" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    easy ejabberd clustering (multi-master, fault tolerant, failover) 
+    
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <h1 id="easy_ejabberd_clustering_multimaster_fault_tolerant_failover">easy ejabberd clustering (multi-master, fault tolerant, failover)</h1>
+
+<p>First and foremost, for general cluster configuration steps see this post:</p>
+
+<p><a href="http://chad.ill.ac/post/35967173942/easy-ejabberd-clustering-guide-mnesia-mysql"></a><a href="http://chad.ill.ac/post/35967173942/easy-ejabberd-clustering-guide-mnesia-mysql">http://chad.ill.ac/post/35967173942/easy-ejabberd-clustering-guide-mnesia-mysql</a></p>
+
+<p>Once you have a functioning cluster using those steps and you want to add multi-master support for better failover and fault tolerance of your ejabberd cluster come back here and read this post.</p>
+
+<p><strong>Why?</strong></p>
+
+<p>After getting our small cluster up and running we started testing cluster failure handling.  We quickly discovered that no matter how many slaves you had deployed as soon as your master node experienced issues the entire cluster became inoperable.  To make things worse fixing the master didn’t fix the cluster, you would have to completely cycle the ejabberd instances of every slave to get them working properly again, or input the mnesia commands to make master communicate with the slaves.  This is messy, it’s stupid, but most importantly it pretty much kills the benefit of having a cluster in the first place.  If you have a single point of failure that is capable of crippling an entire cluster… well, it’s going to bite you in the ass.</p>
+
+<p><strong>What to do about it:</strong></p>
+
+<p>After about a day of piecing together old mailing lists, stackoverflow posts and articles on mnesia replication, several forums talking about modifying ejabberdctl, and tinkering we were able to finally track down a multimaster cluster that could handle any of the nodes dying without bringing down the entire cluster.  The fix doesn’t so much involve ejabberd as it involves just using proper erlang/mnesia replication and removing dependencies on remote tables for underlying data stores used for route and session management by ejabberd.</p>
+
+<p>I’ve updated the plugin to support this functionality so deploying failover masters is easier.  We’re only running a small cluster of 3 nodes so we’ve deployed all 3 nodes as masters, this allows us to kill/cycle any of them without any special procedures needed to leave/join a cluster after failure/reboot/etc.  That being said I cannot comment on the performance issues one might experience running a masters only cluster at a massive scale so using a handful of masters with regular non-copy/remote slaves might be a better architecture if you’re dealing with large clusters, but I don’t know, so I can’t advise one way or the other at this point.  You could also run additional masters with their own slaves as a failover cluster.</p>
+
+<p><strong>Plugin:</strong></p>
+
+<p><a href="https://github.com/chadillac/ejabberd-easy_cluster/blob/master/easy_cluster.erl"></a><a href="https://github.com/chadillac/ejabberd-easy_cluster/blob/master/easy_cluster.erl">https://github.com/chadillac/ejabberd-easy_cluster/blob/master/easy_cluster.erl</a></p>
+
+<p><strong>Usage:</strong></p>
+
+<p>To use the plugin to create a second, third, Nth master node is super simple.</p>
+
+<p><em>note: this requires doing a complete mnesia db copy over the network, this might hang for a bit if your databases are large or network latency is high (or both)</em></p>
+
+<pre><code>easy_cluster:join_as_master(&#39;ejabberd@any_master_node.domain.com&#39;).</code></pre>
+
+<p>That’s it, you’re done!</p>
+
+<p>I hope this tool helps you out and saves you some time. </p>
+    <hr>
+    <div class="pagination btn-group">
+      
+        <a class="btn prev" href="/2013/06/03/handlebars-handlebarsjs-precompiled-templates" title="Handlebars (Handlebarsjs) + Precompiled Templates = Error has no method 'merge'">&larr; Previous</a>
+      
+        <a class="btn" href="/archive.html">Archive</a>
+      
+        <a class="btn next" href="/2013/07/13/thinkpad-linux-scrolling-after-reboot" title="ThinkPad - Linux - Scrolling after reboot">Next &rarr;</a>
+      
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'chadillac'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+  
+  <div class="span4">
+    <section>
+      <h4>Published</h4>
+      <div class="date"><span>11 July 2013</span></div>
+    </section>
+         
+    
+      <section>
+        <h4>Tags</h4>
+        <ul class="tag_box">
+          
+          
+
+
+  
+     
+    	<li><a href="/tags.html#ejabberd,-ref">ejabberd, <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#multimaster,-ref">multimaster, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#easy,-ref">easy, <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#clustering,-ref">clustering, <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#fault-ref">fault <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#tolerant,-ref">tolerant, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#fail-ref">fail <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#over,-ref">over, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#dual-ref">dual <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#master,-ref">master, <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#ejabberd-ref">ejabberd <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#clustering,-ref">clustering, <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#erlang,-ref">erlang, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#mnesia,-ref">mnesia, <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#failover,-ref">failover, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#multi-ref">multi <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#master,-ref">master, <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#master-ref">master <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#slave-ref">slave <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#replication-ref">replication <span>1</span></a></li>
+    
+  
+
+
+
+        </ul>
+      </section>
+             
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2014 Chad Seaman
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://github.com/dhulihan/hooligan" target="_blank">The Hooligan Theme</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    
+  </body>
+</html>
+

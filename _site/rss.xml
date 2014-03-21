@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+        <title>chad.ill.ac</title>
+        <description>chad.ill.ac - Chad Seaman</description>
+        <link>http://chadillac.github.io</link>
+        <link>http://chadillac.github.io</link>
+        <lastBuildDate>2014-03-21T02:44:46-07:00</lastBuildDate>
+        <pubDate>2014-03-21T02:44:46-07:00</pubDate>
+        <ttl>1800</ttl>
+
+
+        <item>
+                <title>I built a javascript framework for view management in responsive applications... check it out!</title>
+                <description>&lt;h1 id=&quot;i_built_a_javascript_framework_for_view_management_in_responsive_applications_check_it_out&quot;&gt;I built a javascript framework for view management in responsive applications… check it out!&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/chadillac/MoshPit.js&quot;&gt;https://github.com/chadillac/MoshPit.js&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;MoshPit.js - Controlled chaos for your views, states, and screen sizes.&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+                <link>http://chadillac.github.io/2014/03/11/i-built-a-javascript-framework-for-view-management-in</link>
+                <guid>http://chadillac.github.io/2014/03/11/i-built-a-javascript-framework-for-view-management-in</guid>
+                <pubDate>2014-03-11T10:26:23-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>[SOLVED] Arch Linux - pacman - ERROR - invalid or corrupted package (PGP signature)</title>
+                <description>&lt;h1 id=&quot;solved_arch_linux__pacman__error__invalid_or_corrupted_package_pgp_signature&quot;&gt;[SOLVED] Arch Linux : pacman : ERROR -&amp;gt; invalid or corrupted package (PGP signature)&lt;/h1&gt;
+
+&lt;p&gt;Ran into this and couldn’t upgrade.  After a bit of Googling around and looking at thread after thread after thread of discussion about flags, config files, sigLevels, etc.  I found a 1 line fix that didn’t required any of the aforementioned “maybes”.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# pacman-key --refresh-keys&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;fixed.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The issue is one of the authors of a package you have installed has since updated their PGP signature they use to sign and verify their packages.  Your local key for said package is unaware of this and pacman thinks you’re being duped by an untrustworthy package.  This fix just runs through your keychain and requests the most recent keys for all of the packages you care about.&lt;/p&gt;
+
+&lt;p&gt;Once the key fetching is done running your upgrade should go off without a hitch.  If it doesn’t… talk to my friend Google, he’ll know more than I.&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2014/02/11/solved-arch-linux-pacman-error-invalid-or</link>
+                <guid>http://chadillac.github.io/2014/02/11/solved-arch-linux-pacman-error-invalid-or</guid>
+                <pubDate>2014-02-11T14:51:00-08:00</pubDate>
+        </item>
+
+        <item>
+                <title>TypeError - Cannot call method &quot;log&quot; of undefined meet smarter_console.js</title>
+                <description>&lt;h1 id=&quot;typeerror_cannot_call_method_log_of_undefined_meet_smarter_consolejs&quot;&gt;“TypeError: Cannot call method ‘log’ of undefined” meet smarter_console.js&lt;/h1&gt;
+
+&lt;p&gt;Web developer tools have come a long way over the past 10 years, I remember writing custom logging and debugging classes that used pop-up windows and forin loops to inspect objects.  We now have a great suite of tools in many browsers and we utilize them often.  However some issues still persist, even with these tools.&lt;/p&gt;
+
+&lt;p&gt;Old browsers don’t support them, meaning your console.log call with generate the fatal error used in the title of this post.  This means you’ll have to either wrap your interaction calls in a if statement making sure they exist, or you’ll have to remove or comment them in production code.  If you remove them in production code, you can’t use them in production code.  Sometimes it’s handy to have them in a production environment  the downside obviously being all of your production .log calls dumping a lot of data to the browser console 100% of the time when in reality you need it less that 1% of the time.&lt;/p&gt;
+
+&lt;p&gt;Facing this little gotcha I decided to write a smarter console wrapper/shim for dealing with the aforementioned cases and adding support (not great support, but support) for older browsers.  Also adding the ability to suppress calls in a production environment and to enable them at will should you need them.&lt;/p&gt;
+
+&lt;p&gt;You can find out more about this lib and it’s use on it’s github page.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/chadillac/smarter_js_console&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://github.com/chadillac/smarter_js_console&quot;&gt;https://github.com/chadillac/smarter_js_console&lt;/a&gt; &lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2013/12/13/typeerror-cannot-call-method-log-of-undefined-meet</link>
+                <guid>http://chadillac.github.io/2013/12/13/typeerror-cannot-call-method-log-of-undefined-meet</guid>
+                <pubDate>2013-12-13T16:15:37-08:00</pubDate>
+        </item>
+
+        <item>
+                <title>ThinkPad - Linux - Scrolling after reboot</title>
+                <description>&lt;h1 id=&quot;thinkpad__linux__scrolling_after_reboot&quot;&gt;ThinkPad : Linux : Scrolling after reboot&lt;/h1&gt;
+
+&lt;p&gt;After a reboot my gpointing-device-settings would never stick for middle mouse button emulation and scrolling.  After looking around this seems to be a bug with the gpointing-device-settings application, but buried in the bug report comments a user has found a fix/hack.&lt;/p&gt;
+
+&lt;p&gt;This workaround seems to fix the issue on my X220 and makes the scrolling persistent even after reboot.&lt;/p&gt;
+
+&lt;p&gt;In the file &lt;strong&gt;/usr/share/X11/xorg.conf.d/20-thinkpad.conf &lt;/strong&gt;(if it doesn’t exist, create it.) put the following contents:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Section &amp;quot;InputClass&amp;quot;
+    Identifier &amp;quot;Trackpoint Wheel Emulation&amp;quot;
+    MatchProduct &amp;quot;TrackPoint&amp;quot;
+    MatchDevicePath &amp;quot;/dev/input/event*&amp;quot;
+    Driver &amp;quot;evdev&amp;quot;
+    Option &amp;quot;EmulateWheel&amp;quot; &amp;quot;true&amp;quot;
+    Option &amp;quot;EmulateWheelButton&amp;quot; &amp;quot;2&amp;quot;
+    Option &amp;quot;Emulate3Buttons&amp;quot; &amp;quot;false&amp;quot;
+    Option &amp;quot;XAxisMapping&amp;quot; &amp;quot;6 7&amp;quot;
+    Option &amp;quot;YAxisMapping&amp;quot; &amp;quot;4 5&amp;quot;
+EndSection&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;reference: &lt;a href=&quot;https://bugs.launchpad.net/ubuntu/+source/gpointing-device-settings/+bug/489830/comments/30&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://bugs.launchpad.net/ubuntu/+source/gpointing-device-settings/+bug/489830/comments/30&quot;&gt;https://bugs.launchpad.net/ubuntu/+source/gpointing-device-settings/+bug/489830/comments/30&lt;/a&gt; (thanks Tommi!!!)&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2013/07/13/thinkpad-linux-scrolling-after-reboot</link>
+                <guid>http://chadillac.github.io/2013/07/13/thinkpad-linux-scrolling-after-reboot</guid>
+                <pubDate>2013-07-13T08:50:00-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>easy ejabberd clustering (multi-master, fault tolerant, failover)</title>
+                <description>&lt;h1 id=&quot;easy_ejabberd_clustering_multimaster_fault_tolerant_failover&quot;&gt;easy ejabberd clustering (multi-master, fault tolerant, failover)&lt;/h1&gt;
+
+&lt;p&gt;First and foremost, for general cluster configuration steps see this post:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://chad.ill.ac/post/35967173942/easy-ejabberd-clustering-guide-mnesia-mysql&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://chad.ill.ac/post/35967173942/easy-ejabberd-clustering-guide-mnesia-mysql&quot;&gt;http://chad.ill.ac/post/35967173942/easy-ejabberd-clustering-guide-mnesia-mysql&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Once you have a functioning cluster using those steps and you want to add multi-master support for better failover and fault tolerance of your ejabberd cluster come back here and read this post.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Why?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;After getting our small cluster up and running we started testing cluster failure handling.  We quickly discovered that no matter how many slaves you had deployed as soon as your master node experienced issues the entire cluster became inoperable.  To make things worse fixing the master didn’t fix the cluster, you would have to completely cycle the ejabberd instances of every slave to get them working properly again, or input the mnesia commands to make master communicate with the slaves.  This is messy, it’s stupid, but most importantly it pretty much kills the benefit of having a cluster in the first place.  If you have a single point of failure that is capable of crippling an entire cluster… well, it’s going to bite you in the ass.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;What to do about it:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;After about a day of piecing together old mailing lists, stackoverflow posts and articles on mnesia replication, several forums talking about modifying ejabberdctl, and tinkering we were able to finally track down a multimaster cluster that could handle any of the nodes dying without bringing down the entire cluster.  The fix doesn’t so much involve ejabberd as it involves just using proper erlang/mnesia replication and removing dependencies on remote tables for underlying data stores used for route and session management by ejabberd.&lt;/p&gt;
+
+&lt;p&gt;I’ve updated the plugin to support this functionality so deploying failover masters is easier.  We’re only running a small cluster of 3 nodes so we’ve deployed all 3 nodes as masters, this allows us to kill/cycle any of them without any special procedures needed to leave/join a cluster after failure/reboot/etc.  That being said I cannot comment on the performance issues one might experience running a masters only cluster at a massive scale so using a handful of masters with regular non-copy/remote slaves might be a better architecture if you’re dealing with large clusters, but I don’t know, so I can’t advise one way or the other at this point.  You could also run additional masters with their own slaves as a failover cluster.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Plugin:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/chadillac/ejabberd-easy_cluster/blob/master/easy_cluster.erl&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://github.com/chadillac/ejabberd-easy_cluster/blob/master/easy_cluster.erl&quot;&gt;https://github.com/chadillac/ejabberd-easy_cluster/blob/master/easy_cluster.erl&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Usage:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;To use the plugin to create a second, third, Nth master node is super simple.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;note: this requires doing a complete mnesia db copy over the network, this might hang for a bit if your databases are large or network latency is high (or both)&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;easy_cluster:join_as_master(&amp;#39;ejabberd@any_master_node.domain.com&amp;#39;).&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That’s it, you’re done!&lt;/p&gt;
+
+&lt;p&gt;I hope this tool helps you out and saves you some time. &lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2013/07/11/easy-ejabberd-clustering-multi-master-fault-tolerant</link>
+                <guid>http://chadillac.github.io/2013/07/11/easy-ejabberd-clustering-multi-master-fault-tolerant</guid>
+                <pubDate>2013-07-11T12:28:00-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>Handlebars (Handlebarsjs) + Precompiled Templates = Error has no method 'merge'</title>
+                <description>&lt;h1 id=&quot;handlebars_handlebarsjs__precompiled_templates__error_has_no_method_merge&quot;&gt;Handlebars (Handlebarsjs) + Precompiled Templates = Error: has no method ‘merge’&lt;/h1&gt;
+
+&lt;p&gt;After a server move we started encountering errors after precompiling our handlebars templates.  Googling didn’t help much but after playing around with various versions of the compiler and runtime (both of ours were old on the older server) it seems like using runtime 1.0.0 with the older 1.0.11 version of the handlebars CLI compiler works.&lt;/p&gt;
+
+&lt;p&gt;Installing older version of compiler via NPM:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ npm install handlebars@1.0.11 -g&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I hope you didn’t waste too much time and found this solution quicker than I was able to.&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2013/06/03/handlebars-handlebarsjs-precompiled-templates</link>
+                <guid>http://chadillac.github.io/2013/06/03/handlebars-handlebarsjs-precompiled-templates</guid>
+                <pubDate>2013-06-03T17:25:00-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>Strophe.js -> disconnect on page unload</title>
+                <description>&lt;h1 id=&quot;strophejs__disconnect_on_page_unload&quot;&gt;Strophe.js -&amp;gt; disconnect on page unload&lt;/h1&gt;
+
+&lt;p&gt;&lt;strong&gt;UPDATE: I deleted my outdated repos, Strophe.js has been updated to support this out of the box now.  The below code still shows how to properly apply this functionality and has been updated to support the default Strophe lib.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;There are a few discussions online regarding this procedure and most of them are misleading, incorrect, or wrong.  To reliably kill a jabber connection using Strophe.js you’ll need to force a synchronous (blocking) connection and run through the disconnect steps.  A couple important things to note here that most discussions seem to skip over.  Strophe doesn’t natively support synchronous connections.  Another thing I see is people saying you should set the sync flag before calling the flush method. My testing basically came to the conclusion we should flush the connection with an async call, but should switch to a synchro call immediately before issuing the disconnect.  If you enable synchro before running flush your browser session will become unresponsive… for a while.&lt;/p&gt;
+
+&lt;p&gt;~~&lt;strong&gt;Step 1: &lt;/strong&gt;patch Strophe to support synchronous connections~~&lt;/p&gt;
+
+&lt;p&gt;~~&lt;a href=&quot;https://github.com/chadillac/strophejs/commit/e484a792a402a24d21aa9bc205b62fa18b60d69f&quot;&gt;github diff&lt;/a&gt;~~&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Step 2: &lt;/strong&gt;setup your onunload handler&lt;/p&gt;
+
+&lt;p&gt;jQuery&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(window).bind(&amp;#39;unload&amp;#39;, function(){
+     StropheConnection.flush();
+     StropheConnection.options.sync = true;
+     StropheConnection.disconnect();
+});&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Vanilla JS&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;window.onunload = function() {
+    StropheConnection.flush();
+    StropheConnection.options.sync = true;
+    StropheConnection.disconnect();
+};&lt;/code&gt;&lt;/pre&gt;</description>
+                <link>http://chadillac.github.io/2013/02/13/strophe-js-disconnect-on-page-unload</link>
+                <guid>http://chadillac.github.io/2013/02/13/strophe-js-disconnect-on-page-unload</guid>
+                <pubDate>2013-02-13T14:37:00-08:00</pubDate>
+        </item>
+
+        <item>
+                <title>Batch file renaming, extension changing (bash, find, &amp; awk)</title>
+                <description>&lt;h1 id=&quot;batch_file_renaming_extension_changing_bash_find__awk&quot;&gt;Batch file renaming, extension changing (bash, find, &amp;amp; awk)&lt;/h1&gt;
+
+&lt;p&gt;I had a ton of files on a remote server I needed to change the extension on.  Using find -exec didn’t seem like the right solution after a couple minutes of Googling so I decided to use my favorite trick of bash pipes, awk, and sh. Below I’ll show you the one-liner I used and then we’ll break it down and explain what we’re doing.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The Command:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;find . -name &amp;#39;*.html&amp;#39; | awk &amp;#39;{printf &amp;quot;mv &amp;quot;$0; sub(/html/,&amp;quot;php&amp;quot;); print &amp;quot; &amp;quot;$0}&amp;#39; | sh&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;The Breakdown:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;We’ll start by breaking up the command into it’s individual pieces&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;find . -name &amp;#39;*.html&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;First we find all of the files matching our search, in this example we’re looking for all files in our current directory (including sub-directories, find is recursive by default)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;awk &amp;#39;{printf &amp;quot;mv &amp;quot;$0; sub(/html/,&amp;quot;php&amp;quot;); print &amp;quot; &amp;quot;$0;}&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here we take the input coming out of find via a pipe. We’ll essentially use that output to write a shell command on the fly. Since this command looks kind of messy we’ll break it down piece by piece&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1: awk &amp;#39;{
+2:      printf &amp;quot;mv &amp;quot;$0;
+3:      sub(/html/,&amp;quot;php&amp;quot;);
+4:      print &amp;quot; &amp;quot;$0;
+5:     }&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;line 1:&lt;/strong&gt;\ Call awk and begin our program with&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;#39;{&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;line 2:&lt;/strong&gt;\ Output the first part of our “on the fly” shell command (note we use printf to suppress the default newline included in print)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mv 1.html&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;line 3:&lt;/strong&gt;\ Modify the input&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1.html ==&amp;gt; 1.php&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;line 4:&lt;/strong&gt;\ Output the now modified input of our “on the fly” shell command (and here we use print, because that default newline is wanted)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; 1.php&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;line 5:&lt;/strong&gt;\ Close our awk program&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;}&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;let’s look at some example input and output&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ls
+10.html  1.html  2.html  3.html  4.html  5.html  6.html  7.html  8.html  9.html
+
+$ find . -name &amp;#39;*.html&amp;#39; | awk &amp;#39;{printf &amp;quot;mv &amp;quot;$0; sub(/html/,&amp;quot;php&amp;quot;); printf &amp;quot; &amp;quot;$0&amp;quot;\n&amp;quot;}&amp;#39;
+mv 10.html 10.php
+mv 1.html 1.php
+mv 2.html 2.php
+mv 3.html 3.php
+mv 4.html 4.php
+mv 5.html 5.php
+mv 6.html 6.php
+mv 7.html 7.php
+mv 8.html 8.php
+mv 9.html 9.php
+
+sh&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now that we have our commands being written by awk all we have to do is redirect their output into sh for execution.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;and that’s it, you’re done.&lt;/strong&gt; \ See that wasn’t so bad. It’s worth noting this technique can use a standard ls if you’re doing a blanket rename. It’s also worth noting this technique can be expanded even further to allow all types of renaming/batching logic. I’ve used a technique much like this for doing batch video conversion, log renaming, etc.&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2012/12/06/batch-file-renaming-extension-changing-bash-find</link>
+                <guid>http://chadillac.github.io/2012/12/06/batch-file-renaming-extension-changing-bash-find</guid>
+                <pubDate>2012-12-06T22:29:00-08:00</pubDate>
+        </item>
+
+        <item>
+                <title>easy ejabberd clustering guide (mnesia, mysql, &amp; postgres)</title>
+                <description>&lt;h1 id=&quot;easy_ejabberd_clustering_guide_mnesia_mysql__postgres&quot;&gt;easy ejabberd clustering guide (mnesia, mysql, &amp;amp; postgres)&lt;/h1&gt;
+
+&lt;p&gt;Ejabberd is a great little XMPP server, however it’s documentation makes me want to rip my fucking face off.  I have just spent way to long getting things configured (this is partly due to mysql5 support and 3rd party modules, dual NIC machines, public dns records… clustering issues were just icing on the cake) and I’m going to (hopefully) make your life a little easier.  To get things working properly I pieced together multiple tutorials and official documentation… which seems absurd considering the popularity of the ejabberd.  So below are the nitty gritty details and a helper module I wrote… because inputing mnesia commands into a debug shell for multiple slave node is… retarded.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;before we begin, I want to point out that if you’re using mysql or postgres for authentication, offline messaging, etc. it doesn’t really matter to ejabberd for clustering purposes, although it is important when joining the cluster (which the official documentation seems to forget).&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;first things first, let’s configure our master node&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;(we’re assuming at this point you’ve installed ejabberd from source without a prefix, have it properly configured, and can successfully connect and message using it)&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;strong&gt;1: shut down your “master node”&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ejabberdctl stop&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;2: edit ejabberdctl.cfg (/etc/ejabberd/ejabberctl.cfg)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;2.1: change node name:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ERLANG_NODE=ejabberd@&amp;#39;master.domain.com&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;2.2: change ip we listen on: (get this from ifconfig)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;note: look closely, that’s a tuple, don’t use .’s use ,’s&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;INET_DIST_INTERFACE={192,168,10,100}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3: clear your ejabberd mnesia tables after hostname change&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;note: hostname changes are a pain, it’s easier to just let ejabberd rebuild the mnesia db’s at startup.&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;rm /var/lib/ejabberd/*&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;4: add hostname to /etc/hosts using address and hostname from confg&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;192.168.10.100    master.domain.com&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;5: start master node, and make sure it’s running&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ejabberdctl start
+
+ejabberdctl status&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;now we’ll need to configure our slaves&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;(once again we’re assuming the server is properly installed and functional as a stand alone server)&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;strong&gt;1: if the server is running, stop it.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ejabberdctl stop&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;2: update ejabberctl.cfg (/etc/ejabberd/ejabberdctl.cfg&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;2.1: change node name:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ERLANG_NODE=ejabberd@&amp;#39;slave1.domain.com&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;2.2: change ip we listen on: (get this from ifconfig)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;note: look closely, that’s a tuple, don’t use .’s use ,’s&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;INET_DIST_INTERFACE={192,168,10,150}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3: clear your ejabberd mnesia tables after hostname change&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;note: hostname changes are a pain, it’s easier to just let ejabberd rebuild the mnesia db’s at startup.&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;rm /var/lib/ejabberd/*&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;4: copy .erlang.cookie from “master node” (/var/lib/ejabberd/.erlang.cookie)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;note: this is the unique cookie from ejabberd@master.domain.com, not the one already residing on slave1&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;5: add hostnames to /etc/hosts using address and hostname from confg&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;192.168.10.100    master.domain.com
+192.168.10.150    slave1.domain.com&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;6: create and compile easy_cluster module&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;6.1: go to server binaries folder&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd /lib/ejabberd/ebin/&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;6.2: create empty module file&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;touch easy_cluster.erl&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;6.3: put the following contents in easy_cluster.erl and save the file&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/chadillac/ejabberd-easy_cluster/blob/master/easy_cluster.erl&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://github.com/chadillac/ejabberd-easy_cluster/blob/master/easy_cluster.erl&quot;&gt;https://github.com/chadillac/ejabberd-easy_cluster/blob/master/easy_cluster.erl&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;6.4: compile easy_cluster.erl&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;erlc easy_cluster.erl&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;6.5: confirm compilation succeeded&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;note: you should see easy_cluster.beam in the directory if compilation was successful&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ls | grep easy_cluster.beam&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;7: start the slave node &amp;amp; confirm it’s running&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ejabberdctl start
+
+ejabberdctl status&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;8: drop into a debugging session on the live server&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;note: you’ll see a warning message, just hit enter to continue&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ejabberdctl debug&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;note: if you successfully drop a debug console, your prompt will resemble this&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Erlang (BEAM) emulator version 5.6.5 [source] [64-bit] [smp:4] [async-threads:0] [hipe] [kernel-poll:true]
+
+Eshell V5.6.5  (abort with ^G)
+(ejabberd@slave1.domain.com)1&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;9: test to see if we can connect to the node&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;note: at the end of each line we put a . this tells erlang to process our command&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;easy_cluster:test_node(&amp;#39;ejabberd@master.domain.com&amp;#39;).&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;if “server is reachable” we can continue, if it’s not, make sure you did ALL of the steps above.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;10: join the cluster&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;easy_cluster:join(&amp;#39;ejabberd@master.domain.com&amp;#39;).&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;11: suspend your debug session by hitting Ctrl+c Ctrl+c&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;12: you’re done, go drink a beer, you probably need it.&lt;/strong&gt;&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2012/11/17/easy-ejabberd-clustering-guide-mnesia-mysql</link>
+                <guid>http://chadillac.github.io/2012/11/17/easy-ejabberd-clustering-guide-mnesia-mysql</guid>
+                <pubDate>2012-11-17T21:28:00-08:00</pubDate>
+        </item>
+
+        <item>
+                <title>12.04 - Ubuntu/Linux Audio Skipping/Stuttering</title>
+                <description>&lt;h1 id=&quot;1204__ubuntulinux_audio_skippingstuttering&quot;&gt;12.04 - Ubuntu/Linux Audio Skipping/Stuttering&lt;/h1&gt;
+
+&lt;p&gt;I recently built a new machine for work and was having a lot of issues with audio (on linux, what a shock ;)). I’d read up on some different fixes and none of them seemed to fix the issues I was having with my system.  After about a week of woes and a lack of music I decided to open up the box and swap the audio cable from HD to AC97 just to see if it might fix the issue.  Low and behold audio plays fine without issue using the older standard.  I don’t reap the benefits of HD audio, but not being an audiophile and working with middle of the road headphones I can’t tell a difference anyways.&lt;/p&gt;
+
+&lt;p&gt;So just a heads up, if software can’t fix your skipping audio, maybe give your hardware a try.&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2012/05/07/12-04-ubuntu-linux-audio-skipping-stuttering</link>
+                <guid>http://chadillac.github.io/2012/05/07/12-04-ubuntu-linux-audio-skipping-stuttering</guid>
+                <pubDate>2012-05-07T08:23:00-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>Linux simple h264 batch conversion</title>
+                <description>&lt;h1 id=&quot;linux_simple_h264_batch_conversion&quot;&gt;Linux simple h264 batch conversion&lt;/h1&gt;
+
+&lt;p&gt;You’ll need HandBrakeCLI (&lt;a href=&quot;http://handbrake.fr/downloads2.php&quot;&gt;http://handbrake.fr/downloads2.php&lt;/a&gt;) and a terminal.  To convert a video (the easiest way possible, thanks to HandBrake mind you, ffmpeg was giving me a lot of issues) is really simple, but depending on your machine, the quality, the size, etc. it can take a good bit of resources and a good bit of time to complete one of these encodings.  If you’re not keen to sitting around watching progress counters and ETAs there will surely be down time between encoding tasks as you’ll have to manually keep an eye on them.  Using some common *nix tools we can make this automated and easy to use.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Basic HandBrakeCLI encoding:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;HandBrakeCLI -Z Universal -i infile.avi -o outfile.mp4&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The above will take a standard avi format video and convert it to an h264 format video, simple.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Batch Conversion:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ls *.avi | awk &amp;#39;{print &amp;quot;HandBrakeCLI -Z Universal -i \x22&amp;quot;$0&amp;quot;\x22 -o \x22&amp;quot;$0&amp;quot;.mp4\x22&amp;quot;}&amp;#39; | sh&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The above will (assuming you’re in a directory with several .avi files) will go over each file, build the appropriate conversion command for HandBrakeCLI and then pipe that into sh to execute the command.  I’ve been doing mass conversions for web streaming purposes using this technique, so far I’ve converted over 600 individual videos and still going strong.&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2012/04/19/linux-simple-h264-batch-conversion</link>
+                <guid>http://chadillac.github.io/2012/04/19/linux-simple-h264-batch-conversion</guid>
+                <pubDate>2012-04-19T14:42:00-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>If you can get Nyan Cat into the servers MOTD you&#8217;re more than welcome to do so&#8230; CHALLENGE ACCEPTED</title>
+                <description>&lt;p&gt;“If you can get Nyan Cat into the servers MOTD you’re more than welcome to do so…”&lt;/p&gt;
+
+&lt;h1 id=&quot;challenge_accepted&quot;&gt;CHALLENGE ACCEPTED&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://31.media.tumblr.com/tumblr_m1ts3bgbk91qz6ydvo1_1280.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2012/04/01/if-you-can-get-nyan-cat-into-the-servers-motd</link>
+                <guid>http://chadillac.github.io/2012/04/01/if-you-can-get-nyan-cat-into-the-servers-motd</guid>
+                <pubDate>2012-04-01T17:01:59-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>Booting OS X with Grub2</title>
+                <description>&lt;h1 id=&quot;booting_os_x_with_grub2&quot;&gt;Booting OS X with Grub2&lt;/h1&gt;
+
+&lt;p&gt;I installed Ubuntu on a Mac Mini at work and needed to get back into OS X for some testing.  The default configured Grub entries wouldn’t load for OS X (hd0, part0).  After looking over the net and digging through lines and lines of Grub conf I found a little blurb from another user saying they’d tried this and it worked… so if you’re beating yourself up over OS X and Grub2 give this a try and see if it works… it did for me.&lt;/p&gt;
+
+&lt;p&gt;open up your Grub2 conf file, which in Ubuntu is located at&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/boot/grub/grub.cfg&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then at the bottom of the menu entries I added:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;menuentry &amp;quot;Mac OS X (Custom/Bootable)&amp;quot; --class osx --class darwin --class os {
+        set root=(hd0,0)
+        exit
+}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This entry gets me booted into rEFIt at which point I can properly boot into OS X Lion without issues.  From this point forward the machine will default into rEFIt until you choose to boot into Linux again… which will push you back into Grub2 for future boots.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;“If it’s stupid but it works, it isn’t stupid.”&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Note: I’d already installed and had rEFIt running from the previous Ubuntu install&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2012/02/14/booting-os-x-with-grub2</link>
+                <guid>http://chadillac.github.io/2012/02/14/booting-os-x-with-grub2</guid>
+                <pubDate>2012-02-14T15:42:46-08:00</pubDate>
+        </item>
+
+        <item>
+                <title>Bash'isms (SVN+Awk+Grep+Cut+Bash one liners)</title>
+                <description>&lt;h1 id=&quot;bashisms_svnawkgrepcutbash_one_liners&quot;&gt;Bash’isms (SVN+Awk+Grep+Cut+Bash one liners)&lt;/h1&gt;
+
+&lt;p&gt;A couple bash 1 liners I threw together recently that I’ve found to come in very handy so I thought I’d share.&lt;/p&gt;
+
+&lt;p&gt;The back story is simple, yearly reviews, talk about what you’ve done, yadda yadda yadda.  Well, I don’t remember honestly. I’ve done A LOT.  That’s not going to fly in a serious meeting with &lt;a href=&quot;http://www.youtube.com/watch?v=2SoWNMNKNeM&quot;&gt;“The Bobs”&lt;/a&gt;.  So I needed a way to look over my years work, as a refresher of little and big projects alike.  No problem SVN to the rescue… but our SVN has a lot of developers, and several commits per day of new features, bug fixes, tweaks, etc. After consulting the SVN docs I was pretty shocked to find no way to pull logs based on the user submitting said changes… one would expect something along the lines of:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;svn log -uchad&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And one would be wrong in assuming such a feature exists.  Some Google time turned up convoluted and down right ugly solutions.  I decided to have a go at it with my bash-fu… for practice and profit.  Below is an easy way using a couple common *nix tools to get the info you want fast and easy. In the following examples data you’ll need to replace will be wrapped in %’s with example data in []’s (e.g. %username[chad]%)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Get all svn commits for a given username:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;svn log | grep &amp;#39;| %username[chad]%&amp;#39; | cut -d&amp;#39; &amp;#39; -f1 | awk &amp;#39;{print &amp;quot;svn log -&amp;quot;$1}&amp;#39; | bash &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Get all svn commits for a given username in a year/month/day:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;svn log | grep %date[YYYY-MM-DD]% | grep &amp;#39;| %username[chad]%&amp;#39; | cut -d&amp;#39; &amp;#39; -f1 | awk &amp;#39;{print &amp;quot;svn log -&amp;quot;$1}&amp;#39; | bash &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Get all modified files for a users commited for a day/week/etc.:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;svn log | grep %date[YYYY-MM-DD]% | grep &amp;#39;| %username%&amp;#39; | cut -d&amp;#39; &amp;#39; -f1 | awk &amp;#39;{print &amp;quot;svn log -v -&amp;quot;$1}&amp;#39; | bash | grep %files[&amp;#39;/trunk&amp;#39;]%&lt;/code&gt;&lt;/pre&gt;</description>
+                <link>http://chadillac.github.io/2011/12/15/bashisms-svn-awk-grep-cut-bash-one-liners</link>
+                <guid>http://chadillac.github.io/2011/12/15/bashisms-svn-awk-grep-cut-bash-one-liners</guid>
+                <pubDate>2011-12-15T17:15:00-08:00</pubDate>
+        </item>
+
+        <item>
+                <title>Ubuntu / Debian - List software from repository</title>
+                <description>&lt;h1 id=&quot;ubuntu__debian__list_software_from_repository&quot;&gt;Ubuntu / Debian : List software from repository&lt;/h1&gt;
+
+&lt;p&gt;This will list packages coming from a specific repository&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;grep &amp;lt;repository_name&amp;gt; /var/lib/apt/lists/* | grep tar | cut -d&amp;#39; &amp;#39; -f4 | sort -u&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grep backbox /var/lib/apt/lists/* | grep tar | cut -d&amp;#39; &amp;#39; -f4 | sort -u
+
+aircrack-ng_1.1-1backbox1.debian.tar.gz
+autotools-dev_20100122.1backbox1.tar.gz
+backbox-about_1.2.tar.gz
+backbox-artwork_1.6.tar.gz
+...&lt;/code&gt;&lt;/pre&gt;</description>
+                <link>http://chadillac.github.io/2011/04/21/ubuntu-debian-list-software-from-repository</link>
+                <guid>http://chadillac.github.io/2011/04/21/ubuntu-debian-list-software-from-repository</guid>
+                <pubDate>2011-04-21T17:10:01-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>VTech Pre-Computer Power Pad ... I love thee.</title>
+                <description>&lt;h1 id=&quot;vtech_precomputer_power_pad__i_love_thee&quot;&gt;VTech Pre-Computer Power Pad … I love thee.&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://29.media.tumblr.com/tumblr_lo873gu1I01qz6ydvo1_500.jpg&quot; alt=&quot;VTech&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;My little cousins pulled out my VTech PreComputer Power Pad (the laptop looking version) while I was home this holiday at my Grandmothers house. I hadn’t seen the thing in years and was so happy to see it still around. I waited for them to get tired of it and sat down at the kitchen table to give it a go. It had been years and I recall one application but I couldn’t remember the name. It was the only one that would let you type and type and type, almost like a word processor, but you couldn’t save anything.&lt;/p&gt;
+
+&lt;p&gt;I always loved computers as a kid and when I was given this vtech I was a little disappointed. It was 1994, going on 1995 (christmas gift) and Windows 95 was coming out. My friends were playing solitaire, my uncle had a Mac PowerPC with full paint application and screen savers… and I was given a VTech. It played crossword puzzles, and math games, some basic trivia. Basically my 11 year old self saw it as a toy, capable of nothing more than making me a better student, but never teaching me about computers like I wanted to learn about them. I would go and hang out at office depot and circuit city just so I could play with the real laptops of the time with their spring loaded roller ball mouses, and tiny screens.&lt;/p&gt;
+
+&lt;p&gt;I recall hating mine, it was pointless… useless! I would still play on it, pretending to be a troubled lawyer, or possibly some form of hacker. I recall one day opening that “one word processor application” and typing gibberish in while pretending to be stealing top secret government files. When I pressed enter on the keyboard the screen lit up… it was lines and lines and lines of gibberish back, x’s, 0’s, #’s, and I was sure I had broken the thing, pulling the plug and restarting it fixed it right up, and I could never figure out what I had typed.&lt;/p&gt;
+
+&lt;p&gt;So now, 2011 is here, it’s been nearly 14 years since I was given my first VTech from my grandma and I sit down at her kitchen table to play with my old “toy” laptop that was “useless” for all those years. Something is different this time, I’m telling my little cousins that there is an application on here and you can just type whatever you want… it was the one I used the most as a kid. Then I realize it and a huge smile comes across my face. I look down at the buttons (applications) that you can press and I see one, almost in disbelief, it reads “BASIC”.&lt;/p&gt;
+
+&lt;p&gt;At this point I’m in disbelief, I press the button and sure enough the screen reads “BASIC HAVE FUN!”. This was IT, this was that application… and what’s even cooler, is now I’ve been working full time as a programmer since I was 20… and now I know what BASIC is! I immediately realize that this “useless” toy is far more powerful than I had ever realized as a kid! I sat there at that little laptop on a tiny screen only capable of displaying a handful of characters at time taking requests from my cousins and writing them little applications, there was a birth date calculator, a weight on mars calculator, a square footage calculator, I made special messages appear when they entered correct words when we played 21 questions.&lt;/p&gt;
+
+&lt;p&gt;That little VTech sparked my inner child again, and I’m still floored that I was given (and wasted) such a valuable tool as a child, I hope that I sparked the same interest in my cousins that day and they’ll spend as many hours playing with that little VTech as I did… but hopefully they’ll be able to grok BASIC and get a real head start on the “other kids” with their fancy WIndows 7 and OS X.&lt;/p&gt;
+
+&lt;p&gt;And that’s how I learned that I achieved my first buffer overflow at the age of 11… on accident.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://media.tumblr.com/tumblr_lop36wa4bE1qz6ydv.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2011/01/04/vtech-pre-computer-power-pad-i-love-thee</link>
+                <guid>http://chadillac.github.io/2011/01/04/vtech-pre-computer-power-pad-i-love-thee</guid>
+                <pubDate>2011-01-04T14:53:00-08:00</pubDate>
+        </item>
+
+        <item>
+                <title>Ubuntu 10.04 Netbook Remix - Disable UNR Launcher</title>
+                <description>&lt;h1 id=&quot;ubuntu_1004_netbook_remix__disable_unr_launcher&quot;&gt;Ubuntu 10.04 Netbook Remix : Disable UNR Launcher&lt;/h1&gt;
+
+&lt;p&gt;I installed UNR in version 9.10 and immediately disabled the netbook launcher for the classic desktop.  This was easy in 9.10 thanks to a setting in the system preferences called “Desktop Mode Switcher”.  It was great, it was easy… and now it’s gone.&lt;/p&gt;
+
+&lt;p&gt;For whatever reason in 10.04 they decided to get rid of this handy little tool.  I had to purge some nautilus config files and all of a sudden, I was back to UNR launcher.  I couldn’t find my trusty switcher so I started looking around the web… people are going through 5-12 steps to get around this thing, many without full success.  I’m writing this in the hopes that _YOU_ the person reading this finds it before you go through 12 steps of tweaking config files. &lt;/p&gt;
+
+&lt;p&gt;Step 1: Remove the netbook-launcher&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;sudo aptitude remove netbook-launcher&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Step 2: Install regular ubuntu-desktop&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;sudo aptitude install ubuntu-desktop&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Step 3: Restart Gnome&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;sudo service gdm restart&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Step 4: Login using Gnome as your session&lt;/p&gt;
+
+&lt;p&gt;Done and done… hope this saves someone from a headache.&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2010/07/21/ubuntu-10-04-netbook-remix-disable-unr-launcher</link>
+                <guid>http://chadillac.github.io/2010/07/21/ubuntu-10-04-netbook-remix-disable-unr-launcher</guid>
+                <pubDate>2010-07-21T00:00:00-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>Quickly search your bash history using arrow keys</title>
+                <description>&lt;h1 id=&quot;quickly_search_your_bash_history_using_arrow_keys&quot;&gt;Quickly search your bash history using arrow keys&lt;/h1&gt;
+
+&lt;p&gt;Add these lines to your /etc/inputrc to enable the functionality.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;\e[A&amp;quot;: history-search-backward
+&amp;quot;\e[B&amp;quot;: history-search-forward&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Thanks Reddit and Archwiki!\&lt;/p&gt;
+
+&lt;p&gt;(&lt;a href=&quot;http://wiki.archlinux.org/index.php/Bash&quot;&gt;http://wiki.archlinux.org/index.php/Bash&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;p.s. this functionality is included in your inputrc file by default on Ubuntu 10.4 and can be used by uncommenting the lines (41 &amp;amp; 42), but rather than arrows it uses Page Up and Page Down.&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2010/07/14/quickly-search-your-bash-history-using-arrow-keys</link>
+                <guid>http://chadillac.github.io/2010/07/14/quickly-search-your-bash-history-using-arrow-keys</guid>
+                <pubDate>2010-07-14T21:13:00-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>str_replace &amp; Fatal error - Only variables can be passed by reference</title>
+                <description>&lt;h1 id=&quot;str_replace__fatal_error_only_variables_can_be_passed_by_reference&quot;&gt;str_replace &amp;amp; Fatal error: Only variables can be passed by reference&lt;/h1&gt;
+
+&lt;p&gt;&lt;strong&gt;UPDATE 4/3/2012:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A commenter pointed out that str_replace wasn’t properly limiting replacements via the count param.  After looking around it seems that \$count no longer limits replacements (I’m honestly wondering if it ever did…) and rather returns a number of replacements performed.  For any users experiencing this I’d recommend using &lt;strong&gt;preg_replace&lt;/strong&gt; as it effectively supports limiting replacements.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;preg_replace(&amp;#39;/findit/i&amp;#39;,&amp;#39;replaceit&amp;#39;,$haystack,1);&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I could have sworn this func worked using the \$count as a limit in the past…&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;If you’re using a simple str_replace() call in PHP and getting a strange Fatal error that doesn’t make a whole lot of sense to you I have a hunch as to why.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Fatal example:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$file_name = str_replace(&amp;#39;findit&amp;#39;, &amp;#39;replaceit&amp;#39;, $haystack, 1);&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In PHP 5.0.5 some changes were made to how PHP handles variables, functions, and references.  This broke a lot of older code but also introduced some vague and questionable fatal errors.  They meant well by doing this by essentially requiring parameters be passed via reference.  I’m assuming this was to prevent PHP from copying large pieces of data to work on them and thus helping memory performance overall. Luckily there is a simple fix, just declare your variable to be passed inline.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Working example:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$file_name = str_replace(&amp;#39;findit&amp;#39;, &amp;#39;replaceit&amp;#39;, $haystack, $count = 1);&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;Note: if you’re working with a large data set in a loop I would highly recommend setting the reference outside of the loop and avoid this inline method.&lt;/em&gt;&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2010/02/08/str-replace-fatal-error-only-variables-can-be-passed</link>
+                <guid>http://chadillac.github.io/2010/02/08/str-replace-fatal-error-only-variables-can-be-passed</guid>
+                <pubDate>2010-02-08T13:23:00-08:00</pubDate>
+        </item>
+
+        <item>
+                <title>An effective JavaScript &amp; CSS cache busting technique</title>
+                <description>&lt;h1 id=&quot;an_effective_javascript__css_cache_busting_technique&quot;&gt;An effective JavaScript &amp;amp; CSS cache busting technique&lt;/h1&gt;
+
+&lt;p&gt;Client side cache is both a friend and an enemy.  As many web designers and developers have learned in the past what it saves you in bandwidth is worth more than it’s share of headaches.  With that said one of it’s major headaches is old files on end users computers being used and breaking functionality.  This can be felt in layout as well as code (e.g. undefined function ‘do_important_stuff()’) if you’re newly modified files never make it to your end users.&lt;/p&gt;
+
+&lt;p&gt;There is an old trick that’s been around for a good while and helped this a bit, an old annoying and version tracking pain in the ass trick.  You would change your file names with each major revision (core.v1.js or member.v1.css) which would cause browsers on the client side to request and store the file thinking it was new.  From a design aspect it wasn’t to bad, from the version control aspect it wasn’t to bad, and from the implementation aspect it wasn’t to bad… but it was annoying.&lt;/p&gt;
+
+&lt;p&gt;Trying to move away from this you’d more than likely discover the GET variable hack.  Basically appending useless garble to the end of your file name (file.css?garble=1351341) would ensure your end users browser fetch the file from your server.  This was usually done with a variable in your source or more often than not a Unix time stamp.  A concern with this method arose in your bandwidth bill if you did it wrong.  Most people would just append the time stamp, and since it changes everyone second every single page load would cause yet another extra and pointless call to the server for the same old unmodified file.  As if that wasn’t already fugly and possibly expensive (depending on your traffic) it didn’t work in some versions of IE.&lt;/p&gt;
+
+&lt;p&gt;During a discussion on better ways to handle JavaScript cache busting with our head software engineer I came up with a fairly simple idea that I hadn’t thought of before… let the file bust it’s own damn cache! Basically using PHP and file system mtimes we should be able to not only make this problem null and void but we can fix it once and never look back.&lt;/p&gt;
+
+&lt;p&gt;Using a couple quick functions in PHP and a simple rewrite rule placed on the server we were up and running in no time. Some code snippets and explanations will follow.&lt;/p&gt;
+
+&lt;p&gt;PHP include function:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function javascript_include($file_name = null){
+    if (empty($file_name)){
+        return false;
+    }
+
+    $file = WWW_WEB_DIR.&amp;#39;/js/&amp;#39;.$file_name;
+    $timestamp = 0;
+
+    if ($file_exists($file)) {
+        $timestamp = filemtime($file);
+    } else {
+        return false;
+    }
+
+    $script_url = &amp;quot;/js/$timestamp/$file_name&amp;quot;;
+
+    return &amp;quot;&amp;lt;script type=\&amp;quot;text/javascript\&amp;quot; src=\&amp;quot;$script_url\&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;\n”;
+}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Using PHP function:&lt;/p&gt;
+&amp;lt;?=javascript_include(&amp;#39;site_core.js&amp;#39;)?&amp;gt;
+&lt;p&gt;Resulting output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;/js/135134134/site_core.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Rewrite rule:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;RewriteRule (.*)/[0-9]+/(.*\.js)$ $1/$2 [PT]&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Summary:&lt;/p&gt;
+
+&lt;p&gt;So there you have it, completely automated and effective cache busting.  This works because browsers universally see the change in the directory structure and automatically assume it’s a new file causing an initial fetch of the file and caching it.  If you publish changes to that file the mtime on the file system of the server will be updated, therefore the next request to include said file will have a different directory structure.&lt;/p&gt;
+
+&lt;p&gt;Hope this helps others dealing with caching headaches.&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2010/01/25/an-effective-javascript-css-cache-busting-technique</link>
+                <guid>http://chadillac.github.io/2010/01/25/an-effective-javascript-css-cache-busting-technique</guid>
+                <pubDate>2010-01-25T12:09:59-08:00</pubDate>
+        </item>
+
+        <item>
+                <title>Flex Security sandbox violation</title>
+                <description>&lt;h1 id=&quot;flex_security_sandbox_violation&quot;&gt;Flex Security sandbox violation&lt;/h1&gt;
+
+&lt;p&gt;Working in Flex and/or Flash you often run into the same problem many times and forget the easy and common sense answer.  Security sandbox violations for me is one of those cases.&lt;/p&gt;
+
+&lt;p&gt;Googling for answers is usually fruitless and starts talking about server side crossdomain.xml policy files and meta data.  These are important in the long run but what about when they’re in place and you’re just testing new client side code.  Well I’ve done this a few times now and EVERY time I do it I completely forget the quick and easy work around.  So if you’ve looked into the crossdomain.xml tutorials and everything is ship shape but you still can’t test from your local machine I suggest doing the following.&lt;/p&gt;
+
+&lt;p&gt;​1. right click on any .swf file&lt;/p&gt;
+
+&lt;p&gt;​2. choose “Settings…”&lt;/p&gt;
+
+&lt;p&gt;​3. Privacy Tab&lt;/p&gt;
+
+&lt;p&gt;​4. “Advanced…” button&lt;/p&gt;
+
+&lt;p&gt;this will load up an Adobe page that allows you to change and tweak global settings in Flash player that can only be done so there.  It’s pretty clutch.&lt;/p&gt;
+
+&lt;p&gt;​5. click “Global Security Settings Panel” on the left side menu&lt;/p&gt;
+
+&lt;p&gt;​6. click “Edit Locations…”&lt;/p&gt;
+
+&lt;p&gt;​7. click “Add Locations…”&lt;/p&gt;
+
+&lt;p&gt;​8. in the prompt window that comes up put /&lt;/p&gt;
+
+&lt;p&gt;​9. click confirm&lt;/p&gt;
+
+&lt;p&gt;​10. change radio button to “Always allow”&lt;/p&gt;
+
+&lt;p&gt;Wahlah… your local .swf files are now null and void as far as cross domain sandbox rules are concerned in the world of Flash player.&lt;/p&gt;
+
+&lt;p&gt;What you’ve essentially done here is tell Flash Player to ignore security rules for any files in your root files system.  If you’re security minded and run a lot of .swf files that you don’t trust locally I wouldn’t recommend this setting as it completely overrides security measures put in place to protect you.  You can also use the “browse” functionality to pick specific files which realistically is much safer from a security stand point.  I myself don’t worry about it because I don’t store any .swf files locally when it boils down to it.&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2009/11/24/flex-security-sandbox-violation</link>
+                <guid>http://chadillac.github.io/2009/11/24/flex-security-sandbox-violation</guid>
+                <pubDate>2009-11-24T17:31:31-08:00</pubDate>
+        </item>
+
+        <item>
+                <title>have a Netbook?... want solid Linux support?...</title>
+                <description>&lt;h1 id=&quot;have_a_netbook_want_solid_linux_support&quot;&gt;have a Netbook?… want solid Linux support?&lt;/h1&gt;
+
+&lt;p&gt;I currently have an Asus Eee PC (1002ha) and to say the least am not an avid Windows fan.  Since the day I unpackaged this puppy I have been on a quest to find the best OS I could for the lil guy.  So far I’ve ran EasyPeasy and OS X (needs drivers sadly otherwise this would have never been written) and looked into running Moblin (although I must admit I never installed it).  Long story short EasyPeasy was my distro of choice.&lt;/p&gt;
+
+&lt;p&gt;Recently 9.04 went stable and I had heard good things but after looking over the EasyPeasy forums decided not to upgrade.  Apparently it was breaking a lot of stuff and 8.10 was running solid enough to keep me content.&lt;/p&gt;
+
+&lt;p&gt;Over memorial day weekend I upgraded my desktop (8.10) to 9.04 and bricked the box so I ventured over the Ubuntu.com to get a fresh 9.04 install disk.  After doing a clean install the system was unstable and Firefox was a mess.  So I decided to check out Ubuntu.com again to see if any others were reporting issues or if I just had a botched install.  That’s when I noticed it… 9.04 Netbook Remix Edition!  I’m not sure how I missed this memo but seriously wtf!?  After looking over the wiki and confirming that the 1000h models were running fairly solid I was sold.&lt;/p&gt;
+
+&lt;p&gt;I downloaded their .img file threw it on my thumb drive using my Windows machine (9.04 wasn’t working yet) and plugged that puppy in.  The install was painless and fast and I was up and running in no time.  On the Ubuntu forums I had seen some issues of people reporting failures coming out of “sleep mode/stand by” and another user mentioned on their non-netbook that enabling “Effects” (and inturn upping the vid drivers) fixed the problem.  Now this is what shocked me… even on my 1002ha I was able to enable “Extra” (wobbly windowns, drop shadows, fading menus… the whole 9 baby!) under the effects panel (System-&amp;gt;Preferences-&amp;gt;Appearance-&amp;gt;Visual Effects) and not only did it work… it worked well… damn well.&lt;/p&gt;
+
+&lt;p&gt;I had never expected the Compiz stuff to be so snappy on such low end video hardware (Intel Integrated 1.6Ghz Atom &amp;amp; 2 gigs of RAM) but it is!  One of my biggest pet peeves with my old EasyPeasy install were the hoops you’d have to jump through to disable “Tap to Click”.  I’d read over tutorials… borked some xorg configs and still because of the “special” touchpad they used on the 1002ha (multitouch … some random vendor) I wasn’t able to get it to work properly.  With 9.04 Netbook Edition it was as simple as unchecking a box in mouse preferences!&lt;/p&gt;
+
+&lt;p&gt;If you’re running EasyPeasy (love you guys, but sorry) I HIGHLY RECOMMEND you go ahead and grab the new official Ubuntu netbook build (link at the end of the article) and get it on your Eee PC A.S.A.P.  I’m one very happy camper now that my lil guy has all the bells and whistles.  From my testing so far multitouch works, web cam works, sound works, function keys (brighness, volume, etc) all work (the mute button didn’t work under EasyPeasy)!&lt;/p&gt;
+
+&lt;p&gt;Now these next parts are mere speculation (as when you’re happy with a piece of software you tend to be a touch biased) and I haven’t tested these claims thoroughly but the machine feels faster, battery life seems to have improved, Flash (a known resource hog on all Linux boxes) seems to even perform better (sudo apt-get install flashplugin-nonfree).&lt;/p&gt;
+
+&lt;p&gt;Hope this helps push a couple of other curious netbook owners over the edge and helps them take the plunge!&lt;/p&gt;
+
+&lt;p&gt;Ubuntu Netbook Edition : &lt;a href=&quot;http://www.ubuntu.com/getubuntu/download-netbook&quot;&gt;http://www.ubuntu.com/getubuntu/download-netbook&lt;/a&gt;&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2009/05/26/have-a-netbook-want-solid-linux-support</link>
+                <guid>http://chadillac.github.io/2009/05/26/have-a-netbook-want-solid-linux-support</guid>
+                <pubDate>2009-05-26T15:48:34-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>SharedObject.flush() the silent killer.</title>
+                <description>&lt;h1 id=&quot;sharedobjectflush_the_silent_killer&quot;&gt;SharedObject.flush() the silent killer.&lt;/h1&gt;
+
+&lt;p&gt;We launched our Video Chat Application to mostly good reviews from the user community.  One of our biggest complaints/bugs was “The app doesn’t load… it just displays a blank white page after the “loading” screen goes away”.  We’d tried old Flash player versions, older browsers, multiple OS’s and STILL couldn’t reliably duplicate the error.  After a couple weeks of the app being live someone started a thread on the community forums titled “Think I know why people are having problems getting into chat..”.  Sure enough the user pointed out a development over sight.  It seems that if a user has set their “Local Storage” settings in Flash to 0 the app would fail to load, the forum thread gave a quick description on how to set this to a higher number.&lt;/p&gt;
+
+&lt;p&gt;We weren’t exactly sure as to why this happened on some systems nor why your average user would have changed this (testing locally wouldn’t duplicate the bug, but the fix was indeed working for people left and right).  So we let people in customer service know about this fix… but that still didn’t answer why it was breaking.  We knew it had to do with local storage (obviously) and more than likely it was related to saving Local Shared Objects to the clients system to keep their settings preferences between app sessions.  What I found out just really pissed me off more than anything.&lt;/p&gt;
+
+&lt;p&gt;So turns out if you’re using Local Shared Objects and a user has disabled local storage your app will run fine.   You can freely write and read to the Shared Object without any issues the problem arose when you’d issues a SharedObject.flush().  But that wouldn’t fail UNLESS a user has checked “never ask again”.  See if a user had set the number to 0 when you issued a flush() the app would ask them for permission but if they had checked “never ask again” the SharedObject would throw a fatal error (that doesn’t even register in the Debug Flash Player mind you).&lt;/p&gt;
+
+&lt;p&gt;In short… if using Local Shared Objects in your app your code should look something like this.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public var my_so:SharedObject = SharedObject.getLocal(&amp;#39;your_so&amp;#39;);public function save_so():Boolean{    var so_status:String;    try    {        so_status = my_so.flush();    }    catch(e)    {        Alert.show(&amp;quot;you&amp;#39;ll need to enable local storage to save settings.&amp;quot;);        return false;    }    if(so_status == &amp;quot;pending&amp;quot;)    {        // set to 0 ... prompted user for allow or deny... might have saved it.        return false;    }    else if(so_status == &amp;quot;flushed&amp;quot;)    {        // successfully wrote SO to disk.    }    return true;}&lt;/code&gt;&lt;/pre&gt;</description>
+                <link>http://chadillac.github.io/2009/05/21/sharedobject-flush-the-silent-killer</link>
+                <guid>http://chadillac.github.io/2009/05/21/sharedobject-flush-the-silent-killer</guid>
+                <pubDate>2009-05-21T13:30:00-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>nerd.com &#8230; office sport vanguards.</title>
+                <description>&lt;h1 id=&quot;nerdcom__office_sport_vanguards&quot;&gt;nerd.com … office sport vanguards.&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://www.tumblr.com/photo/1280/chadillac/111082888/1/Fj4JZgoQWnrcz3o3Pr1vtRsK&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2009/05/21/nerd-com-office-sport-vanguards</link>
+                <guid>http://chadillac.github.io/2009/05/21/nerd-com-office-sport-vanguards</guid>
+                <pubDate>2009-05-21T11:46:13-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>AS3/Flex 3 ArrayCollection Copy/Duplication</title>
+                <description>&lt;h1 id=&quot;as3flex_3_arraycollection_copyduplication&quot;&gt;AS3/Flex 3 ArrayCollection Copy/Duplication&lt;/h1&gt;
+
+&lt;p&gt;In Flex recently I was trying to use the dataProvider of a List component in another component.  It was for a Video Chat Application and it would make whispering another user easier by facilitating auto-completion on a name.  Long story short the dataProvider for said list had various sorts and filters applied to it so saying list.dataProvider wasn’t an option because we needed to see the entire list not just a filtered subset.&lt;/p&gt;
+
+&lt;p&gt;ANNNNYWAY… I needed to duplicate and keep a copy for comparisions and such in the other component.  After looking around and getting very frustrated I started messing around with a mish-mash of semi-complete ideas gathered from various sites.  This was my solution and I hope it helps someone out there.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function copy_ac(in_array:ArrayCollection):ArrayCollection
+{
+    return new ArrayCollection( in_array.source.concat() );
+}&lt;/code&gt;&lt;/pre&gt;</description>
+                <link>http://chadillac.github.io/2009/05/11/as3-flex-3-arraycollection-copy-duplication</link>
+                <guid>http://chadillac.github.io/2009/05/11/as3-flex-3-arraycollection-copy-duplication</guid>
+                <pubDate>2009-05-11T17:21:38-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>a gift from the guys at work.</title>
+                <description>&lt;h1 id=&quot;a_gift_from_the_guys_at_work&quot;&gt;a gift from the guys at work.&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://www.tumblr.com/photo/1280/chadillac/96546109/1/Fj4JZgoQWmbxg9ww0DKspUuI&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2009/04/15/a-gift-from-the-guys-at-work</link>
+                <guid>http://chadillac.github.io/2009/04/15/a-gift-from-the-guys-at-work</guid>
+                <pubDate>2009-04-15T11:55:25-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>does it look like a box!?</title>
+                <description>&lt;h1 id=&quot;does_it_look_like_a_box&quot;&gt;“does it look like a box!?”&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.elliottkember.com/ie.html&quot;&gt;http://www.elliottkember.com/ie.html&lt;/a&gt;&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2009/04/15/does-it-look-like-a-box</link>
+                <guid>http://chadillac.github.io/2009/04/15/does-it-look-like-a-box</guid>
+                <pubDate>2009-04-15T09:40:08-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>Yours truly competing in our &#8220;Office Olympics&#8221; High Jump competition.</title>
+                <description>&lt;h1 id=&quot;yours_truly_competing_in_our_office_olympics_high_jump_competition&quot;&gt;Yours truly competing in our “Office Olympics” High Jump competition.&lt;/h1&gt;</description>
+                <link>http://chadillac.github.io/2009/03/26/yours-truly-competing-in-our-office-olympics</link>
+                <guid>http://chadillac.github.io/2009/03/26/yours-truly-competing-in-our-office-olympics</guid>
+                <pubDate>2009-03-26T14:56:23-07:00</pubDate>
+        </item>
+
+        <item>
+                <title>Flex 3 textarea buffering/trimming</title>
+                <description>&lt;h1 id=&quot;flex_3_textarea_bufferingtrimming&quot;&gt;Flex 3 textarea buffering/trimming&lt;/h1&gt;
+
+&lt;p&gt;While working on a recent project (Flash based video chat application) we’d start to see serious performance degredation the longer the app ran.  Long story short we discovered the chat rooms Textarea was the primary culprit.  Since we continued to append new text the memory foot print for that single component was enough to make the whole app slow to a crawl.&lt;/p&gt;
+
+&lt;p&gt;We tried a few different approaches at first.  Some good and some horrible.  One involved RegExp objects and character counts with substrings… as you can (or can’t) imagine it was a disaster both from a memory and system resources stand point but also from a “wtf this isn’t working reliably” point as well.&lt;/p&gt;
+
+&lt;p&gt;After a little more thought I came up with this little tactic here… as I write this I have bots spamming a test room.  We’re at 7.5 million messages recieved and still going strong! ;)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public function add_chat_text(chat_text:String):void
+{
+    chat_text_buffer.push(chat_text);
+            
+    if(chat_text_buffer.length &amp;gt;= 100)
+    {
+        var keep_offset:int = (chat_text_buffer.length - 100); 
+        chat_text_buffer = chat_text_buffer.splice(keep_offset);
+    }
+            
+    chatText.htmlText = chat_text_buffer.join(&amp;quot;\n&amp;quot;);
+    callLater(scrollChatArea);
+}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Explination:&lt;/p&gt;
+
+&lt;p&gt;chat_text_buffer is an Array that we treat as a buffer of messages recieved.  When a new message event comes in from the server once we’ve gone through and gotten it formated with username, HTML elements, etc.  We call add_chat_text passing in the message.&lt;/p&gt;
+
+&lt;p&gt;Once inside the function we add the new message to the chat_text_buffer Array via a push.  The next steps are the imporant ones.  Once we’ve added the new message to the tail end of the array via the push we check against it’s length.  If the length exceeds the maximum chat messages we wish to display we subtract our desired message amount from the overall length of the Array.  This will return an integer that we’ll use as a kind of reference to the first index we want to keep. (e.g. length = 150… 150 - 100 = 50 … so now we know we need to start taking elements at index 50 and trash 0-49)&lt;/p&gt;
+
+&lt;p&gt;Now that we have our starting index we’ll need to trash the rest of the Array.  Using Array.slice we can easily achieve this (what a wonderful method).  By passing in our index that we calculated previously.&lt;/p&gt;
+
+&lt;p&gt;Once we’ve gotten the subset of data from the Array and trashed the rest all that’s left is to convert it into String format and shove it in the Textarea.  I accomplish this with a simple join and making the value seperator be a “\n” (new line).  Once we’ve done that we just replace the Textareas HTMLtext value with our new chat buffer.&lt;/p&gt;
+
+&lt;p&gt;PROTIP: K.I.S.S.&lt;/p&gt;</description>
+                <link>http://chadillac.github.io/2009/03/26/flex-3-textarea-buffering-trimming</link>
+                <guid>http://chadillac.github.io/2009/03/26/flex-3-textarea-buffering-trimming</guid>
+                <pubDate>2009-03-26T14:10:58-07:00</pubDate>
+        </item>
+
+
+</channel>
+</rss>

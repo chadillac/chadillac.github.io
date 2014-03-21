@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        Linux simple h264 batch conversion - 
+      
+      chad.ill.ac
+    </title>
+    
+    <meta name="author" content="Chad Seaman">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+            <a class="brand" href="/">chad.ill.ac</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="https://github.com/chadillac" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                
+                <li>
+                  <a href="https://twitter.com/chadillac" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Linux simple h264 batch conversion 
+    
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <h1 id="linux_simple_h264_batch_conversion">Linux simple h264 batch conversion</h1>
+
+<p>You’ll need HandBrakeCLI (<a href="http://handbrake.fr/downloads2.php">http://handbrake.fr/downloads2.php</a>) and a terminal.  To convert a video (the easiest way possible, thanks to HandBrake mind you, ffmpeg was giving me a lot of issues) is really simple, but depending on your machine, the quality, the size, etc. it can take a good bit of resources and a good bit of time to complete one of these encodings.  If you’re not keen to sitting around watching progress counters and ETAs there will surely be down time between encoding tasks as you’ll have to manually keep an eye on them.  Using some common *nix tools we can make this automated and easy to use.</p>
+
+<p><strong>Basic HandBrakeCLI encoding:</strong></p>
+
+<pre><code>HandBrakeCLI -Z Universal -i infile.avi -o outfile.mp4</code></pre>
+
+<p>The above will take a standard avi format video and convert it to an h264 format video, simple.</p>
+
+<p><strong>Batch Conversion:</strong></p>
+
+<pre><code>ls *.avi | awk &#39;{print &quot;HandBrakeCLI -Z Universal -i \x22&quot;$0&quot;\x22 -o \x22&quot;$0&quot;.mp4\x22&quot;}&#39; | sh</code></pre>
+
+<p>The above will (assuming you’re in a directory with several .avi files) will go over each file, build the appropriate conversion command for HandBrakeCLI and then pipe that into sh to execute the command.  I’ve been doing mass conversions for web streaming purposes using this technique, so far I’ve converted over 600 individual videos and still going strong.</p>
+    <hr>
+    <div class="pagination btn-group">
+      
+        <a class="btn prev" href="/2012/04/01/if-you-can-get-nyan-cat-into-the-servers-motd" title="If you can get Nyan Cat into the servers MOTD you&#8217;re more than welcome to do so&#8230; CHALLENGE ACCEPTED">&larr; Previous</a>
+      
+        <a class="btn" href="/archive.html">Archive</a>
+      
+        <a class="btn next" href="/2012/05/07/12-04-ubuntu-linux-audio-skipping-stuttering" title="12.04 - Ubuntu/Linux Audio Skipping/Stuttering">Next &rarr;</a>
+      
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'chadillac'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+  
+  <div class="span4">
+    <section>
+      <h4>Published</h4>
+      <div class="date"><span>19 April 2012</span></div>
+    </section>
+         
+    
+      <section>
+        <h4>Tags</h4>
+        <ul class="tag_box">
+          
+          
+
+
+  
+     
+    	<li><a href="/tags.html#linux,-ref">linux, <span>4</span></a></li>
+     
+    	<li><a href="/tags.html#handbrake,-ref">handbrake, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#video-ref">video <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#conversion,-ref">conversion, <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#batch,-ref">batch, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#h264,-ref">h264, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#easy-ref">easy <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#conversion,-ref">conversion, <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#easy-ref">easy <span>2</span></a></li>
+    
+  
+
+
+
+        </ul>
+      </section>
+             
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2014 Chad Seaman
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://github.com/dhulihan/hooligan" target="_blank">The Hooligan Theme</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    
+  </body>
+</html>
+

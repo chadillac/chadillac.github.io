@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        Flex Security sandbox violation - 
+      
+      chad.ill.ac
+    </title>
+    
+    <meta name="author" content="Chad Seaman">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+            <a class="brand" href="/">chad.ill.ac</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="https://github.com/chadillac" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                
+                <li>
+                  <a href="https://twitter.com/chadillac" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Flex Security sandbox violation 
+    
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <h1 id="flex_security_sandbox_violation">Flex Security sandbox violation</h1>
+
+<p>Working in Flex and/or Flash you often run into the same problem many times and forget the easy and common sense answer.  Security sandbox violations for me is one of those cases.</p>
+
+<p>Googling for answers is usually fruitless and starts talking about server side crossdomain.xml policy files and meta data.  These are important in the long run but what about when they’re in place and you’re just testing new client side code.  Well I’ve done this a few times now and EVERY time I do it I completely forget the quick and easy work around.  So if you’ve looked into the crossdomain.xml tutorials and everything is ship shape but you still can’t test from your local machine I suggest doing the following.</p>
+
+<p>​1. right click on any .swf file</p>
+
+<p>​2. choose “Settings…”</p>
+
+<p>​3. Privacy Tab</p>
+
+<p>​4. “Advanced…” button</p>
+
+<p>this will load up an Adobe page that allows you to change and tweak global settings in Flash player that can only be done so there.  It’s pretty clutch.</p>
+
+<p>​5. click “Global Security Settings Panel” on the left side menu</p>
+
+<p>​6. click “Edit Locations…”</p>
+
+<p>​7. click “Add Locations…”</p>
+
+<p>​8. in the prompt window that comes up put /</p>
+
+<p>​9. click confirm</p>
+
+<p>​10. change radio button to “Always allow”</p>
+
+<p>Wahlah… your local .swf files are now null and void as far as cross domain sandbox rules are concerned in the world of Flash player.</p>
+
+<p>What you’ve essentially done here is tell Flash Player to ignore security rules for any files in your root files system.  If you’re security minded and run a lot of .swf files that you don’t trust locally I wouldn’t recommend this setting as it completely overrides security measures put in place to protect you.  You can also use the “browse” functionality to pick specific files which realistically is much safer from a security stand point.  I myself don’t worry about it because I don’t store any .swf files locally when it boils down to it.</p>
+    <hr>
+    <div class="pagination btn-group">
+      
+        <a class="btn prev" href="/2009/05/26/have-a-netbook-want-solid-linux-support" title="have a Netbook?... want solid Linux support?...">&larr; Previous</a>
+      
+        <a class="btn" href="/archive.html">Archive</a>
+      
+        <a class="btn next" href="/2010/01/25/an-effective-javascript-css-cache-busting-technique" title="An effective JavaScript &amp; CSS cache busting technique">Next &rarr;</a>
+      
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'chadillac'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+  
+  <div class="span4">
+    <section>
+      <h4>Published</h4>
+      <div class="date"><span>24 November 2009</span></div>
+    </section>
+         
+             
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2014 Chad Seaman
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://github.com/dhulihan/hooligan" target="_blank">The Hooligan Theme</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    
+  </body>
+</html>
+

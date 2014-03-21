@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        An effective JavaScript &amp; CSS cache busting technique - 
+      
+      chad.ill.ac
+    </title>
+    
+    <meta name="author" content="Chad Seaman">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+            <a class="brand" href="/">chad.ill.ac</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="https://github.com/chadillac" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                
+                <li>
+                  <a href="https://twitter.com/chadillac" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    An effective JavaScript &amp; CSS cache busting technique 
+    
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <h1 id="an_effective_javascript__css_cache_busting_technique">An effective JavaScript &amp; CSS cache busting technique</h1>
+
+<p>Client side cache is both a friend and an enemy.  As many web designers and developers have learned in the past what it saves you in bandwidth is worth more than it’s share of headaches.  With that said one of it’s major headaches is old files on end users computers being used and breaking functionality.  This can be felt in layout as well as code (e.g. undefined function ‘do_important_stuff()’) if you’re newly modified files never make it to your end users.</p>
+
+<p>There is an old trick that’s been around for a good while and helped this a bit, an old annoying and version tracking pain in the ass trick.  You would change your file names with each major revision (core.v1.js or member.v1.css) which would cause browsers on the client side to request and store the file thinking it was new.  From a design aspect it wasn’t to bad, from the version control aspect it wasn’t to bad, and from the implementation aspect it wasn’t to bad… but it was annoying.</p>
+
+<p>Trying to move away from this you’d more than likely discover the GET variable hack.  Basically appending useless garble to the end of your file name (file.css?garble=1351341) would ensure your end users browser fetch the file from your server.  This was usually done with a variable in your source or more often than not a Unix time stamp.  A concern with this method arose in your bandwidth bill if you did it wrong.  Most people would just append the time stamp, and since it changes everyone second every single page load would cause yet another extra and pointless call to the server for the same old unmodified file.  As if that wasn’t already fugly and possibly expensive (depending on your traffic) it didn’t work in some versions of IE.</p>
+
+<p>During a discussion on better ways to handle JavaScript cache busting with our head software engineer I came up with a fairly simple idea that I hadn’t thought of before… let the file bust it’s own damn cache! Basically using PHP and file system mtimes we should be able to not only make this problem null and void but we can fix it once and never look back.</p>
+
+<p>Using a couple quick functions in PHP and a simple rewrite rule placed on the server we were up and running in no time. Some code snippets and explanations will follow.</p>
+
+<p>PHP include function:</p>
+
+<pre><code>function javascript_include($file_name = null){
+    if (empty($file_name)){
+        return false;
+    }
+
+    $file = WWW_WEB_DIR.&#39;/js/&#39;.$file_name;
+    $timestamp = 0;
+
+    if ($file_exists($file)) {
+        $timestamp = filemtime($file);
+    } else {
+        return false;
+    }
+
+    $script_url = &quot;/js/$timestamp/$file_name&quot;;
+
+    return &quot;&lt;script type=\&quot;text/javascript\&quot; src=\&quot;$script_url\&quot;&gt;&lt;/script&gt;\n”;
+}</code></pre>
+
+<p>Using PHP function:</p>
+&lt;?=javascript_include(&#39;site_core.js&#39;)?&gt;
+<p>Resulting output:</p>
+
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;/js/135134134/site_core.js&quot;&gt;&lt;/script&gt;</code></pre>
+
+<p>Rewrite rule:</p>
+
+<pre><code>RewriteRule (.*)/[0-9]+/(.*\.js)$ $1/$2 [PT]</code></pre>
+
+<p>Summary:</p>
+
+<p>So there you have it, completely automated and effective cache busting.  This works because browsers universally see the change in the directory structure and automatically assume it’s a new file causing an initial fetch of the file and caching it.  If you publish changes to that file the mtime on the file system of the server will be updated, therefore the next request to include said file will have a different directory structure.</p>
+
+<p>Hope this helps others dealing with caching headaches.</p>
+    <hr>
+    <div class="pagination btn-group">
+      
+        <a class="btn prev" href="/2009/11/24/flex-security-sandbox-violation" title="Flex Security sandbox violation">&larr; Previous</a>
+      
+        <a class="btn" href="/archive.html">Archive</a>
+      
+        <a class="btn next" href="/2010/02/08/str-replace-fatal-error-only-variables-can-be-passed" title="str_replace &amp; Fatal error - Only variables can be passed by reference">Next &rarr;</a>
+      
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'chadillac'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+  
+  <div class="span4">
+    <section>
+      <h4>Published</h4>
+      <div class="date"><span>25 January 2010</span></div>
+    </section>
+         
+    
+      <section>
+        <h4>Tags</h4>
+        <ul class="tag_box">
+          
+          
+
+
+  
+     
+    	<li><a href="/tags.html#CSS,-ref">CSS, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#JavaScript,-ref">JavaScript, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#JS,-ref">JS, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#Cascading-ref">Cascading <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#Style-ref">Style <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#Sheets,-ref">Sheets, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#Caching,-ref">Caching, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#Cache-ref">Cache <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#Busting-ref">Busting <span>1</span></a></li>
+    
+  
+
+
+
+        </ul>
+      </section>
+             
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2014 Chad Seaman
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://github.com/dhulihan/hooligan" target="_blank">The Hooligan Theme</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    
+  </body>
+</html>
+

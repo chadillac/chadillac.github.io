@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        Batch file renaming, extension changing (bash, find, &amp; awk) - 
+      
+      chad.ill.ac
+    </title>
+    
+    <meta name="author" content="Chad Seaman">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+            <a class="brand" href="/">chad.ill.ac</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="https://github.com/chadillac" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                
+                <li>
+                  <a href="https://twitter.com/chadillac" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Batch file renaming, extension changing (bash, find, &amp; awk) 
+    
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <h1 id="batch_file_renaming_extension_changing_bash_find__awk">Batch file renaming, extension changing (bash, find, &amp; awk)</h1>
+
+<p>I had a ton of files on a remote server I needed to change the extension on.  Using find -exec didn’t seem like the right solution after a couple minutes of Googling so I decided to use my favorite trick of bash pipes, awk, and sh. Below I’ll show you the one-liner I used and then we’ll break it down and explain what we’re doing.</p>
+
+<p><strong>The Command:</strong></p>
+
+<pre><code>find . -name &#39;*.html&#39; | awk &#39;{printf &quot;mv &quot;$0; sub(/html/,&quot;php&quot;); print &quot; &quot;$0}&#39; | sh</code></pre>
+
+<p><strong>The Breakdown:</strong></p>
+
+<p>We’ll start by breaking up the command into it’s individual pieces</p>
+
+<pre><code>find . -name &#39;*.html&#39;</code></pre>
+
+<p>First we find all of the files matching our search, in this example we’re looking for all files in our current directory (including sub-directories, find is recursive by default)</p>
+
+<pre><code>awk &#39;{printf &quot;mv &quot;$0; sub(/html/,&quot;php&quot;); print &quot; &quot;$0;}&#39;</code></pre>
+
+<p>Here we take the input coming out of find via a pipe. We’ll essentially use that output to write a shell command on the fly. Since this command looks kind of messy we’ll break it down piece by piece</p>
+
+<pre><code>1: awk &#39;{
+2:      printf &quot;mv &quot;$0;
+3:      sub(/html/,&quot;php&quot;);
+4:      print &quot; &quot;$0;
+5:     }&#39;</code></pre>
+
+<p><strong>line 1:</strong>\ Call awk and begin our program with</p>
+
+<pre><code>&#39;{</code></pre>
+
+<p><strong>line 2:</strong>\ Output the first part of our “on the fly” shell command (note we use printf to suppress the default newline included in print)</p>
+
+<pre><code>mv 1.html</code></pre>
+
+<p><strong>line 3:</strong>\ Modify the input</p>
+
+<pre><code>1.html ==&gt; 1.php</code></pre>
+
+<p><strong>line 4:</strong>\ Output the now modified input of our “on the fly” shell command (and here we use print, because that default newline is wanted)</p>
+
+<pre><code> 1.php</code></pre>
+
+<p><strong>line 5:</strong>\ Close our awk program</p>
+
+<pre><code>}&#39;</code></pre>
+
+<p><strong>let’s look at some example input and output</strong></p>
+
+<pre><code>$ ls
+10.html  1.html  2.html  3.html  4.html  5.html  6.html  7.html  8.html  9.html
+
+$ find . -name &#39;*.html&#39; | awk &#39;{printf &quot;mv &quot;$0; sub(/html/,&quot;php&quot;); printf &quot; &quot;$0&quot;\n&quot;}&#39;
+mv 10.html 10.php
+mv 1.html 1.php
+mv 2.html 2.php
+mv 3.html 3.php
+mv 4.html 4.php
+mv 5.html 5.php
+mv 6.html 6.php
+mv 7.html 7.php
+mv 8.html 8.php
+mv 9.html 9.php
+
+sh</code></pre>
+
+<p>Now that we have our commands being written by awk all we have to do is redirect their output into sh for execution.</p>
+
+<p><strong>and that’s it, you’re done.</strong> \ See that wasn’t so bad. It’s worth noting this technique can use a standard ls if you’re doing a blanket rename. It’s also worth noting this technique can be expanded even further to allow all types of renaming/batching logic. I’ve used a technique much like this for doing batch video conversion, log renaming, etc.</p>
+    <hr>
+    <div class="pagination btn-group">
+      
+        <a class="btn prev" href="/2012/11/17/easy-ejabberd-clustering-guide-mnesia-mysql" title="easy ejabberd clustering guide (mnesia, mysql, &amp; postgres)">&larr; Previous</a>
+      
+        <a class="btn" href="/archive.html">Archive</a>
+      
+        <a class="btn next" href="/2013/02/13/strophe-js-disconnect-on-page-unload" title="Strophe.js -> disconnect on page unload">Next &rarr;</a>
+      
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'chadillac'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+  
+  <div class="span4">
+    <section>
+      <h4>Published</h4>
+      <div class="date"><span>06 December 2012</span></div>
+    </section>
+         
+             
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2014 Chad Seaman
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://github.com/dhulihan/hooligan" target="_blank">The Hooligan Theme</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    
+  </body>
+</html>
+

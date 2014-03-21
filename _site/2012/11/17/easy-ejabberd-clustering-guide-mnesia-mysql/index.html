@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        easy ejabberd clustering guide (mnesia, mysql, &amp; postgres) - 
+      
+      chad.ill.ac
+    </title>
+    
+    <meta name="author" content="Chad Seaman">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+            <a class="brand" href="/">chad.ill.ac</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="https://github.com/chadillac" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                
+                <li>
+                  <a href="https://twitter.com/chadillac" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    easy ejabberd clustering guide (mnesia, mysql, &amp; postgres) 
+    
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <h1 id="easy_ejabberd_clustering_guide_mnesia_mysql__postgres">easy ejabberd clustering guide (mnesia, mysql, &amp; postgres)</h1>
+
+<p>Ejabberd is a great little XMPP server, however it’s documentation makes me want to rip my fucking face off.  I have just spent way to long getting things configured (this is partly due to mysql5 support and 3rd party modules, dual NIC machines, public dns records… clustering issues were just icing on the cake) and I’m going to (hopefully) make your life a little easier.  To get things working properly I pieced together multiple tutorials and official documentation… which seems absurd considering the popularity of the ejabberd.  So below are the nitty gritty details and a helper module I wrote… because inputing mnesia commands into a debug shell for multiple slave node is… retarded.</p>
+
+<p><strong>before we begin, I want to point out that if you’re using mysql or postgres for authentication, offline messaging, etc. it doesn’t really matter to ejabberd for clustering purposes, although it is important when joining the cluster (which the official documentation seems to forget).</strong></p>
+
+<p><strong><em>first things first, let’s configure our master node</em></strong></p>
+
+<p><em>(we’re assuming at this point you’ve installed ejabberd from source without a prefix, have it properly configured, and can successfully connect and message using it)</em></p>
+<hr />
+<p><strong>1: shut down your “master node”</strong></p>
+
+<pre><code>ejabberdctl stop</code></pre>
+
+<p><strong>2: edit ejabberdctl.cfg (/etc/ejabberd/ejabberctl.cfg)</strong></p>
+
+<p><strong>2.1: change node name:</strong></p>
+
+<pre><code>ERLANG_NODE=ejabberd@&#39;master.domain.com&#39;</code></pre>
+
+<p><strong>2.2: change ip we listen on: (get this from ifconfig)</strong></p>
+
+<p><em>note: look closely, that’s a tuple, don’t use .’s use ,’s</em></p>
+
+<pre><code>INET_DIST_INTERFACE={192,168,10,100}</code></pre>
+
+<p><strong>3: clear your ejabberd mnesia tables after hostname change</strong></p>
+
+<p><em>note: hostname changes are a pain, it’s easier to just let ejabberd rebuild the mnesia db’s at startup.</em></p>
+
+<pre><code>rm /var/lib/ejabberd/*</code></pre>
+
+<p><strong>4: add hostname to /etc/hosts using address and hostname from confg</strong></p>
+
+<pre><code>192.168.10.100    master.domain.com</code></pre>
+
+<p><strong>5: start master node, and make sure it’s running</strong></p>
+
+<pre><code>ejabberdctl start
+
+ejabberdctl status</code></pre>
+<hr />
+<p><strong><em>now we’ll need to configure our slaves</em></strong></p>
+
+<p><em>(once again we’re assuming the server is properly installed and functional as a stand alone server)</em></p>
+<hr />
+<p><strong>1: if the server is running, stop it.</strong></p>
+
+<pre><code>ejabberdctl stop</code></pre>
+
+<p><strong>2: update ejabberctl.cfg (/etc/ejabberd/ejabberdctl.cfg</strong></p>
+
+<p><strong>2.1: change node name:</strong></p>
+
+<pre><code>ERLANG_NODE=ejabberd@&#39;slave1.domain.com&#39;</code></pre>
+
+<p><strong>2.2: change ip we listen on: (get this from ifconfig)</strong></p>
+
+<p><em>note: look closely, that’s a tuple, don’t use .’s use ,’s</em></p>
+
+<pre><code>INET_DIST_INTERFACE={192,168,10,150}</code></pre>
+
+<p><strong>3: clear your ejabberd mnesia tables after hostname change</strong></p>
+
+<p><em>note: hostname changes are a pain, it’s easier to just let ejabberd rebuild the mnesia db’s at startup.</em></p>
+
+<pre><code>rm /var/lib/ejabberd/*</code></pre>
+
+<p><strong>4: copy .erlang.cookie from “master node” (/var/lib/ejabberd/.erlang.cookie)</strong></p>
+
+<p><em>note: this is the unique cookie from ejabberd@master.domain.com, not the one already residing on slave1</em></p>
+
+<p><strong>5: add hostnames to /etc/hosts using address and hostname from confg</strong></p>
+
+<pre><code>192.168.10.100    master.domain.com
+192.168.10.150    slave1.domain.com</code></pre>
+
+<p><strong>6: create and compile easy_cluster module</strong></p>
+
+<p><strong>6.1: go to server binaries folder</strong></p>
+
+<pre><code>cd /lib/ejabberd/ebin/</code></pre>
+
+<p><strong>6.2: create empty module file</strong></p>
+
+<pre><code>touch easy_cluster.erl</code></pre>
+
+<p><strong>6.3: put the following contents in easy_cluster.erl and save the file</strong></p>
+
+<p><a href="https://github.com/chadillac/ejabberd-easy_cluster/blob/master/easy_cluster.erl"></a><a href="https://github.com/chadillac/ejabberd-easy_cluster/blob/master/easy_cluster.erl">https://github.com/chadillac/ejabberd-easy_cluster/blob/master/easy_cluster.erl</a></p>
+
+<p><strong>6.4: compile easy_cluster.erl</strong></p>
+
+<pre><code>erlc easy_cluster.erl</code></pre>
+
+<p><strong>6.5: confirm compilation succeeded</strong></p>
+
+<p><em>note: you should see easy_cluster.beam in the directory if compilation was successful</em></p>
+
+<pre><code>ls | grep easy_cluster.beam</code></pre>
+
+<p><strong>7: start the slave node &amp; confirm it’s running</strong></p>
+
+<pre><code>ejabberdctl start
+
+ejabberdctl status</code></pre>
+
+<p><strong>8: drop into a debugging session on the live server</strong></p>
+
+<p><em>note: you’ll see a warning message, just hit enter to continue</em></p>
+
+<pre><code>ejabberdctl debug</code></pre>
+
+<p><em>note: if you successfully drop a debug console, your prompt will resemble this</em></p>
+
+<pre><code>Erlang (BEAM) emulator version 5.6.5 [source] [64-bit] [smp:4] [async-threads:0] [hipe] [kernel-poll:true]
+
+Eshell V5.6.5  (abort with ^G)
+(ejabberd@slave1.domain.com)1&gt;</code></pre>
+
+<p><strong>9: test to see if we can connect to the node</strong></p>
+
+<p><em>note: at the end of each line we put a . this tells erlang to process our command</em></p>
+
+<pre><code>easy_cluster:test_node(&#39;ejabberd@master.domain.com&#39;).</code></pre>
+
+<p><strong><em>if “server is reachable” we can continue, if it’s not, make sure you did ALL of the steps above.</em></strong></p>
+
+<p><strong>10: join the cluster</strong></p>
+
+<pre><code>easy_cluster:join(&#39;ejabberd@master.domain.com&#39;).</code></pre>
+
+<p><strong>11: suspend your debug session by hitting Ctrl+c Ctrl+c</strong></p>
+
+<p><strong>12: you’re done, go drink a beer, you probably need it.</strong></p>
+    <hr>
+    <div class="pagination btn-group">
+      
+        <a class="btn prev" href="/2012/05/07/12-04-ubuntu-linux-audio-skipping-stuttering" title="12.04 - Ubuntu/Linux Audio Skipping/Stuttering">&larr; Previous</a>
+      
+        <a class="btn" href="/archive.html">Archive</a>
+      
+        <a class="btn next" href="/2012/12/06/batch-file-renaming-extension-changing-bash-find" title="Batch file renaming, extension changing (bash, find, &amp; awk)">Next &rarr;</a>
+      
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'chadillac'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+  
+  <div class="span4">
+    <section>
+      <h4>Published</h4>
+      <div class="date"><span>17 November 2012</span></div>
+    </section>
+         
+    
+      <section>
+        <h4>Tags</h4>
+        <ul class="tag_box">
+          
+          
+
+
+  
+     
+    	<li><a href="/tags.html#cluster,-ref">cluster, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#clustering,-ref">clustering, <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#easy,-ref">easy, <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#ejabberd,-ref">ejabberd, <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#how-ref">how <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#to,-ref">to, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#linux,-ref">linux, <span>4</span></a></li>
+     
+    	<li><a href="/tags.html#mnesia,-ref">mnesia, <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#mysql,-ref">mysql, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#postgres,-ref">postgres, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#simple,-ref">simple, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#straight-ref">straight <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#forward,-ref">forward, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#tutorial,-ref">tutorial, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#howto,-ref">howto, <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#guide-ref">guide <span>1</span></a></li>
+    
+  
+
+
+
+        </ul>
+      </section>
+             
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2014 Chad Seaman
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://github.com/dhulihan/hooligan" target="_blank">The Hooligan Theme</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    
+  </body>
+</html>
+
