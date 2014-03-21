@@ -12,7 +12,7 @@ html, body {
 
 /* line 18, ../_sass/_base.scss */
 body {
-  color: #bbb;
+  color: #FFF;
   text-shadow: 1px 1px 1px #000;
   height: 100%;
   font-family: 'Oxygen', sans-serif;
@@ -23,7 +23,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   font-weight: normal;
-  color: #999;
+  color: #EEE;
   text-rendering: optimizelegibility;
   font-family: 'Advent Pro', sans-serif;
   /*font-family: 'Pontano Sans', sans-serif;*/
