@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        JS pointers, globals, and garbage... gotchas. - 
+      
+      chad.ill.ac
+    </title>
+    
+    <meta name="author" content="Chad Seaman">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+            <a class="brand" href="/">chad.ill.ac</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="https://github.com/chadillac" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                
+                <li>
+                  <a href="https://twitter.com/chadillac" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    JS pointers, globals, and garbage... gotchas. 
+    
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <p>There are plenty of resources out there to learn about these things in depth. Giving you exhaustive detail on these topics isn’t the goal of this post. I want to introduce you to some concepts that many devs gloss over while learning JS. I think it’s important to clear up some misconceptions about JS and working in it. I might do more of these covering more topics in the future such as prototypes, polymorphism, closures, etc. Anyway, let’s begin.</p>
+
+<h1 id="what_are_pointers">What are Pointers?</h1>
+
+<p>Pointers are basically memory locations. Think of it as a mailing address. When you mail something you don’t just write a name on the front of an envelope and drop it in the mail, it has no reference to where it needs to go. Memory and variables are kind of the same way, when you create a new variable in JS you’re really communicating with a chunk of memory that is referenced by a pointer. Keep that in mind going forward.</p>
+
+<h1 id="garbage">Garbage.</h1>
+
+<p>JS doesn’t make you manage your own memory or pointers, it does it for you. All of the creation, passing, and cleanup happens in a blackbox, this makes it easy for the developer, but it also introduces confusion. Remember that a lot of variables in JS are passed by reference, and depending on where that reference occurs some things might stay in memory even if you can get to them from their origional scope.</p>
+
+<h1 id="globals">Globals.</h1>
+
+<p>Globals are referenced from everywhere and they change. When a global thing changes all of it’s references also change. <em>Not so much</em>.</p>
+
+<pre><code> var one = true;
+ function two() { this.one = one; };
+ var three = new two();
+ one = false;
+ console.log(three);
+ &gt; {one:true}</code></pre>
+
+<p>Okay, so we mapped a global to this object, but when we changed the global it didn’t update… that’s because JS made a copy, this wasn’t a pass by reference, so the global isn’t really all that global here, but check this out.</p>
+
+<pre><code> var one = {foo:true};
+ function two() { this.one = one; };
+ var three = new two();
+ one.foo = false;
+ console.log(three);
+ &gt; {one:{foo:false}}</code></pre>
+
+<p>So this time we mapped to a global <em>object</em> and when it’s value changed internally, we caught it</p>
+
+<h1 id="wtf">WTF?!</h1>
+
+<p>When passing around objects and more complex data structures JS doesn’t copy raw values, it does a pass by reference, so what you have is basically the pointer that the global was associated with, since it’s not a hard copy but a shared piece of memory, changes inside of a global object will be reflected in your reference… kinda like how you’d expect a global to work in the first place.</p>
+
+<p><strong>but wait, there’s more!</strong></p>
+
+<pre><code> var one = {foo:true};
+ function two() { this.one = one; };
+ var three = new two();
+ one.foo = false;
+ console.log(three.one);
+ &gt; {foo:false}, 
+ one = null;
+ console.log(one);
+ &gt; null
+ console.log(three.one);
+ &gt; {foo:false}</code></pre>
+
+<h1 id="wat">Wat.</h1>
+
+<p>What happened here was JS in its memory management saw we had a reference to one from another <code>closure</code>, rather than destroying that reference and reclaiming that memory it allowed it to persist and created a new chunk of memory, then re-mapped the global one to that memory. Since our <code>closured</code> version still maps to the old memory/data, we still have complete access to it.</p>
+
+<pre><code> var one = {foo:true};
+ function two() { this.one = one; };
+ var three = new two();
+ var four = new two();
+ one.foo = false;
+ console.log(three.one, four.one);
+ &gt; {foo:false}, {foo:false}
+ one = null;
+ console.log(one);
+ &gt; null
+ console.log(three.one);
+ &gt; {foo:false}, {foo:false}
+ three.one.foo = &#39;asdf&#39;;
+ console.log(three.one, four.one);
+ &gt; {foo:&#39;asdf&#39;}, {foo:&#39;asdf&#39;}</code></pre>
+    <hr>
+    <div class="pagination btn-group">
+      
+        <a class="btn prev" href="/2014/03/11/i-built-a-javascript-framework-for-view-management-in" title="I built a javascript framework for view management in responsive applications... check it out!">&larr; Previous</a>
+      
+        <a class="btn" href="/archive.html">Archive</a>
+      
+        <a class="btn next disabled">Next &rarr;</a>
+      
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'chadillac'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+  
+  <div class="span4">
+    <section>
+      <h4>Published</h4>
+      <div class="date"><span>21 March 2014</span></div>
+    </section>
+         
+    
+      <section>
+        <h4>Tags</h4>
+        <ul class="tag_box">
+          
+          
+
+
+  
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#globals-ref">globals <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#pointers-ref">pointers <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#crash course-ref">crash course <span>1</span></a></li>
+    
+  
+
+
+
+        </ul>
+      </section>
+             
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2014 Chad Seaman
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://github.com/dhulihan/hooligan" target="_blank">The Hooligan Theme</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    
+  </body>
+</html>
+
