@@ -5,10 +5,86 @@
         <description>chad.ill.ac - Chad Seaman</description>
         <link>http://chadillac.github.io</link>
         <link>http://chadillac.github.io</link>
-        <lastBuildDate>2014-03-21T02:44:46-07:00</lastBuildDate>
-        <pubDate>2014-03-21T02:44:46-07:00</pubDate>
+        <lastBuildDate>2014-03-21T11:44:50-07:00</lastBuildDate>
+        <pubDate>2014-03-21T11:44:50-07:00</pubDate>
         <ttl>1800</ttl>
 
+
+        <item>
+                <title>JS pointers, globals, and garbage... gotchas.</title>
+                <description>&lt;p&gt;There are plenty of resources out there to learn about these things in depth. Giving you exhaustive detail on these topics isn’t the goal of this post. I want to introduce you to some concepts that many devs gloss over while learning JS. I think it’s important to clear up some misconceptions about JS and working in it. I might do more of these covering more topics in the future such as prototypes, polymorphism, closures, etc. Anyway, let’s begin.&lt;/p&gt;
+
+&lt;h1 id=&quot;what_are_pointers&quot;&gt;What are Pointers?&lt;/h1&gt;
+
+&lt;p&gt;Pointers are basically memory locations. Think of it as a mailing address. When you mail something you don’t just write a name on the front of an envelope and drop it in the mail, it has no reference to where it needs to go. Memory and variables are kind of the same way, when you create a new variable in JS you’re really communicating with a chunk of memory that is referenced by a pointer. Keep that in mind going forward.&lt;/p&gt;
+
+&lt;h1 id=&quot;garbage&quot;&gt;Garbage.&lt;/h1&gt;
+
+&lt;p&gt;JS doesn’t make you manage your own memory or pointers, it does it for you. All of the creation, passing, and cleanup happens in a blackbox, this makes it easy for the developer, but it also introduces confusion. Remember that a lot of variables in JS are passed by reference, and depending on where that reference occurs some things might stay in memory even if you can get to them from their origional scope.&lt;/p&gt;
+
+&lt;h1 id=&quot;globals&quot;&gt;Globals.&lt;/h1&gt;
+
+&lt;p&gt;Globals are referenced from everywhere and they change. When a global thing changes all of it’s references also change. &lt;em&gt;Not so much&lt;/em&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; var one = true;
+ function two() { this.one = one; };
+ var three = new two();
+ one = false;
+ console.log(three);
+ &amp;gt; {one:true}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Okay, so we mapped a global to this object, but when we changed the global it didn’t update… that’s because JS made a copy, this wasn’t a pass by reference, so the global isn’t really all that global here, but check this out.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; var one = {foo:true};
+ function two() { this.one = one; };
+ var three = new two();
+ one.foo = false;
+ console.log(three);
+ &amp;gt; {one:{foo:false}}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So this time we mapped to a global &lt;em&gt;object&lt;/em&gt; and when it’s value changed internally, we caught it&lt;/p&gt;
+
+&lt;h1 id=&quot;wtf&quot;&gt;WTF?!&lt;/h1&gt;
+
+&lt;p&gt;When passing around objects and more complex data structures JS doesn’t copy raw values, it does a pass by reference, so what you have is basically the pointer that the global was associated with, since it’s not a hard copy but a shared piece of memory, changes inside of a global object will be reflected in your reference… kinda like how you’d expect a global to work in the first place.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;but wait, there’s more!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; var one = {foo:true};
+ function two() { this.one = one; };
+ var three = new two();
+ one.foo = false;
+ console.log(three.one);
+ &amp;gt; {foo:false}, 
+ one = null;
+ console.log(one);
+ &amp;gt; null
+ console.log(three.one);
+ &amp;gt; {foo:false}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;wat&quot;&gt;Wat.&lt;/h1&gt;
+
+&lt;p&gt;What happened here was JS in its memory management saw we had a reference to one from another &lt;code&gt;closure&lt;/code&gt;, rather than destroying that reference and reclaiming that memory it allowed it to persist and created a new chunk of memory, then re-mapped the global one to that memory. Since our &lt;code&gt;closured&lt;/code&gt; version still maps to the old memory/data, we still have complete access to it.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; var one = {foo:true};
+ function two() { this.one = one; };
+ var three = new two();
+ var four = new two();
+ one.foo = false;
+ console.log(three.one, four.one);
+ &amp;gt; {foo:false}, {foo:false}
+ one = null;
+ console.log(one);
+ &amp;gt; null
+ console.log(three.one);
+ &amp;gt; {foo:false}, {foo:false}
+ three.one.foo = &amp;#39;asdf&amp;#39;;
+ console.log(three.one, four.one);
+ &amp;gt; {foo:&amp;#39;asdf&amp;#39;}, {foo:&amp;#39;asdf&amp;#39;}&lt;/code&gt;&lt;/pre&gt;</description>
+                <link>http://chadillac.github.io/2014/03/21/javacript-globals-pointers-closures</link>
+                <guid>http://chadillac.github.io/2014/03/21/javacript-globals-pointers-closures</guid>
+                <pubDate>2014-03-21T00:00:00-07:00</pubDate>
+        </item>
 
         <item>
                 <title>I built a javascript framework for view management in responsive applications... check it out!</title>

@@ -8,6 +8,7 @@ http://chadillac.github.io/rss.xml
 http://chadillac.github.io/sitemap.txt
 http://chadillac.github.io/tags.html
 
+http://chadillac.github.io/2014/03/21/javacript-globals-pointers-closures
 http://chadillac.github.io/2014/03/11/i-built-a-javascript-framework-for-view-management-in
 http://chadillac.github.io/2014/02/11/solved-arch-linux-pacman-error-invalid-or
 http://chadillac.github.io/2013/12/13/typeerror-cannot-call-method-log-of-undefined-meet
